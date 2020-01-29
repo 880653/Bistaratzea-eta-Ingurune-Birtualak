@@ -6,7 +6,6 @@
 #include "scenes.h"
 #include "skybox.h"
 
-
 // global variables
 static float step = 0.5; // advance/retreat step
 const static float angle_step = 1.0f * Constants::degree_to_rad; // angular step (rotations, etc)

@@ -791,6 +791,8 @@ int main() {
 	float f;
 	f = l.paramDistance(P);
 	printf("%f\n", f);
+	float d = l.distance(P);
+	printf("%f\n", d);
 	mainMenu();
 	return 0;
 }

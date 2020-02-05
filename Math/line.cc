@@ -52,7 +52,8 @@ float Line::paramDistance(const Vector3 & P) const {
 
 float Line::distance(const Vector3 & P) const {
 	float res = 0.0f;
-	res = P - (m_O + O + )
+	float u0 = paramDistance(P);
+	res = (P - (m_O + u0*m_d)).normalize();
 	return res;
 }
 

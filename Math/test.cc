@@ -783,16 +783,19 @@ void mainMenu() {
 
 
 int main() {
-	Line l;
-	l.setFromAtoB(Vector3(1.0, 1.0, 1.0), Vector3(2.0, 2.0, 2.0));
-	l.print();
-	Vector3 P = l.at(2.0);
-	P.print();
-	float f;
-	f = l.paramDistance(P);
-	printf("%f\n", f);
-	float d = l.distance(P);
-	printf("%f\n", d);
+	// Line l;
+	// l.setFromAtoB(Vector3(1.0, 1.0, 1.0), Vector3(2.0, 2.0, 2.0));
+	// l.print();
+	// Vector3 P = l.at(2.0);
+	// P.print();
+	// float f;
+	// f = l.paramDistance(P);
+	// printf("%f\n", f);
+	// float d = l.distance(P);
+	// printf("%f\n", d);
+
+	//BSphere s = BSphere((0, 0, 0), 1);
+
 	mainMenu();
 	return 0;
 }

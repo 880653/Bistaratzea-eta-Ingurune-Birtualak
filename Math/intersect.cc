@@ -16,7 +16,18 @@
 //    IINTERSECT intersect
 
 int BSpherePlaneIntersect(const BSphere *bs, Plane *pl) {
-
+	Vector3 c = bs->m_centre;
+	float d = pl->signedDistance(c);
+	float r = bs->m_radius;
+	if (d<0){
+		return -IREJECT;
+	}
+	else if (d>r){
+		return +IREJECT;
+	}
+	else{
+		return IINTERSECT;
+	}
 }
 
 
@@ -26,7 +37,25 @@ int BSpherePlaneIntersect(const BSphere *bs, Plane *pl) {
 //    IREJECT don't intersect
 
 int  BBoxBBoxIntersect(const BBox *bba, const BBox *bbb ) {
-
+	bool intersect = true;
+	// X ardatza
+	if ((bba->m_min.x() > bbb->m_max.x()) || (bbb->m_min.x() > bba->m_max.x())){
+		intersect = false;
+	}
+	// Y ardatza
+	if ((bba->m_min.y() > bbb->m_max.y()) || (bbb->m_min.y() > bba->m_max.y())){
+		intersect = false;
+	}
+	// Z ardatza
+	if ((bba->m_min.z() > bbb->m_max.z()) || (bbb->m_min.z() > bba->m_max.z())){
+		intersect = false;
+	}
+	if(intersect){
+		return IINTERSECT;
+	}
+	else{
+		return IREJECT;
+	}
 }
 
 // @@ TODO: test if a BBox and a plane intersect.
@@ -36,7 +65,9 @@ int  BBoxBBoxIntersect(const BBox *bba, const BBox *bbb ) {
 //    IINTERSECT intersect
 
 int  BBoxPlaneIntersect (const BBox *theBBox, Plane *thePlane) {
-
+	Vector3 c = theBBox->m_min;
+	float d = pl->signedDistance(c);
+	return 0;
 }
 
 // Test if two BSpheres intersect.

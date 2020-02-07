@@ -65,8 +65,31 @@ int  BBoxBBoxIntersect(const BBox *bba, const BBox *bbb ) {
 //    IINTERSECT intersect
 
 int  BBoxPlaneIntersect (const BBox *theBBox, Plane *thePlane) {
-	Vector3 c = theBBox->m_min;
-	float d = pl->signedDistance(c);
+	Vector3 min = theBBox->m_min;
+	Vector3 max = theBBox->m_max;
+	Vector3 centre = (min+max)/2;
+
+	theBBox->print();
+
+	float d = thePlane->signedDistance(centre);
+	float r = ((max-min).normalize());
+
+
+	printf("%f\n", centre.normalize());
+
+	printf("%f\n", d);
+
+	printf("%f\n", r);
+
+	if (d<0 && -d>r){
+		return -IREJECT;
+	}
+	else if (d>0 && d>r){
+		return +IREJECT;
+	}
+	else{
+		return IINTERSECT;
+	}
 	return 0;
 }
 

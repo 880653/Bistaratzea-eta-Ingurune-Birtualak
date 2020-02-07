@@ -186,8 +186,34 @@ void create_scene_tmesh() {
 	mesh->addPoint(Vector3(0.25, -0.25, -0.25)); // P2
 	mesh->addPoint(Vector3(0.25,  0.25, -0.25)); // P3
 
+	mesh->addPoint(Vector3(0.0,  0.5, 0.0)); // P4
+	mesh->addPoint(Vector3(0.0, 0.0, 0.0)); // P5
+	mesh->addPoint(Vector3(0.5, 0.0, 0.0)); // P6
+	mesh->addPoint(Vector3(0.5,  0.5, 0.0)); // P7
+
+	// AURREKO ALDEA
 	mesh->addTriangle(0, 1, 2);    // P0 - P1 - P2
 	mesh->addTriangle(2, 3, 0); // P2 - P3 - P0
+
+	// ATZEKO ALDEA
+	mesh->addTriangle(4, 7, 6); // P4 - P7 - P6
+	mesh->addTriangle(4, 6, 5); // P4 - P6 - P5
+
+	// ESKUINEKO ALDEA
+	mesh->addTriangle(7, 3, 2); // P7 - P3 - P2
+	mesh->addTriangle(7, 2, 6); // P7 - P2 - P6
+
+	// GOIKO ALDEA
+	mesh->addTriangle(3, 7, 4); // P3 - P7 - P4
+	mesh->addTriangle(0, 3, 4); // P0 - P3 - P4
+
+	// EZKERREKO ALDEA
+	mesh->addTriangle(0, 4, 5); // P0 - P4 - P5
+	mesh->addTriangle(5, 1, 0); // P5 - P1 - P0
+
+	// BEHEKO ALDEA
+	mesh->addTriangle(5, 6, 2); // P5 - P6 - P2
+	mesh->addTriangle(2, 1, 5); // P2 - P1 - P5
 
 	gObj = GObjectManager::instance()->create("MG_GOBJ");
 	gObj->add(mesh);

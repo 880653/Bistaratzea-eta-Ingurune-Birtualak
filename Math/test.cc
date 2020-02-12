@@ -795,6 +795,12 @@ int main() {
 	// printf("%f\n", d);
 
 	//BSphere s = BSphere((0, 0, 0), 1);
+	// Trfm3D M; /* Identitatea*/
+	// M.setTrans(Vector3(0.0, 1.0, 0.0)); /* Leku-aldaketa bihurtu*/
+	// Vector3 P = M.transformPoint(Vector3(1.0, 1.0, 1.0));
+	// P.print(); // (1.0, 2.0, 1.0)
+	// Vector3 V = M.transformVector(Vector3(1.0, 1.0, 1.0));
+	// V.print(); // (1.0, 1.0, 1.0) (bek. ez dira mugitzen)
 
 	mainMenu();
 	return 0;

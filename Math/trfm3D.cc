@@ -195,8 +195,12 @@ void Trfm3D::clone( const Trfm3D *T ) {	clone(*T); }
 //
 // IMPORTANT NOTE: suppose that m_w == 1
 
+
+
+
 Vector3 Trfm3D::transformPoint(const Vector3 & P) const {
 	Vector3 res;
+	res = m_c1*P + m_c2*P + m_c3*P + m_tr;
 
 	return res;
 }
@@ -209,7 +213,7 @@ Vector3 Trfm3D::transformPoint(const Vector3 & P) const {
 
 Vector3 Trfm3D::transformVector(const Vector3 & V) const {
 	Vector3 res;
-
+	res = m_c1*V + m_c2*V + m_c3*V;
 	return res;
 }
 

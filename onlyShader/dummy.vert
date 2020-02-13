@@ -29,5 +29,6 @@ varying vec4 f_color;
 void main() {
 
   f_color = vec4(1,1,1,1);
-  gl_Position = v_position;
+  gl_Position = cameraToClipMatrix * modelToCameraMatrix * vec4(V_position, 1);
+  //gl_Position = v_position;
 }

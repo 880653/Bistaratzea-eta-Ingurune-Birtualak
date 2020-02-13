@@ -400,6 +400,11 @@ void Trfm3D::setScale(float scale ) {
 //
 
 void Trfm3D::setRotAxis(const Vector3 & V, const Vector3 & P, float angle ) {
+	//Trfm3D M;
+	this->setTrans(-1*P);
+	this->addRotVec(V, angle);
+	this->addTrans(P);
+	this->transformVector(V);
 
 }
 

@@ -192,7 +192,7 @@ void create_scene_tmesh() {
 	mesh->addPoint(Vector3(0.5,  0.5, 0.0)); // P7
 
 	// AURREKO ALDEA
-	mesh->addTriangle(0, 1, 2);    // P0 - P1 - P2
+	mesh->addTriangle(0, 1, 2);	// P0 - P1 - P2
 	mesh->addTriangle(2, 3, 0); // P2 - P3 - P0
 
 	// ATZEKO ALDEA

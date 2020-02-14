@@ -390,12 +390,26 @@ void Node::draw() {
 		BBoxGL::draw( m_containerWC );
 
 	/* =================== PUT YOUR CODE HERE ====================== */
-	
-	rs->addTrfm(RenderState::modelview, T); // Add T transformation to modelview
+
 	rs->push(RenderState::modelview); // push current matrix into modelview stack
+	rs->addTrfm(RenderState::modelview, m_placement); // Add T transformation to modelview
+
+	if(m_children.size() != 0){
+
+		for(list<Node *>::iterator it = m_children.begin(), end = m_children.end();
+			it != end; ++it) {
+			Node *theChild = *it;
+			theChild->draw(); // or any other thing
+		}
+
+	}
+	else{
+		m_gObject->draw(); // draw geometry object (gobj) 
+	}
+
 	rs->pop(RenderState::modelview); // pop matrix from modelview stack to current
 	
-	gobj->draw(); // draw geometry object (gobj)
+
 	/* =================== END YOUR CODE HERE ====================== */
 
 	// Restore shaders

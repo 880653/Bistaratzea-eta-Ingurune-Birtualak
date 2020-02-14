@@ -268,8 +268,11 @@ void Node::addChild(Node *theChild) {
 	if (theChild == 0) return;
 	if (m_gObject) {
 		// node has a gObject, so print warning
+		printf("Node already has an gObject\n");
 	} else {
 		// node does not have gObject, so attach child
+		m_children.push_back(theChild);
+		theChild->m_parent = this;
 	}
 }
 
@@ -387,8 +390,12 @@ void Node::draw() {
 		BBoxGL::draw( m_containerWC );
 
 	/* =================== PUT YOUR CODE HERE ====================== */
-
-
+	
+	rs->addTrfm(RenderState::modelview, T); // Add T transformation to modelview
+	rs->push(RenderState::modelview); // push current matrix into modelview stack
+	rs->pop(RenderState::modelview); // pop matrix from modelview stack to current
+	
+	gobj->draw(); // draw geometry object (gobj)
 	/* =================== END YOUR CODE HERE ====================== */
 
 	// Restore shaders

@@ -404,7 +404,9 @@ void Node::draw() {
 
 	}
 	else{
+
 		m_gObject->draw(); // draw geometry object (gobj) 
+		
 	}
 
 	rs->pop(RenderState::modelview); // pop matrix from modelview stack to current

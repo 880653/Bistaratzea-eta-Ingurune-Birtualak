@@ -344,6 +344,21 @@ void Node::updateBB () {
 //    See Recipe 1 in for knowing how to iterate through children.
 
 void Node::updateWC() {
+
+	if (m_parent  != 0){
+		m_placementWC = m_parent->m_placementWC;
+
+	}
+	else{
+		m_placementWC == 0;
+	}
+
+   for(list<Node *>::iterator it = m_children.begin(), end = m_children.end(); it != end; ++it) {
+       Node *theChild = *it;
+       theChild->updateWC(); // or any other thing
+       theChild->updateBB();
+   }
+
 }
 
 // @@ TODO:

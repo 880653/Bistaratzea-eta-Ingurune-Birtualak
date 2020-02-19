@@ -273,6 +273,7 @@ void Node::addChild(Node *theChild) {
 		// node does not have gObject, so attach child
 		m_children.push_back(theChild);
 		theChild->m_parent = this;
+		theChild->updateWC();
 	}
 }
 
@@ -326,6 +327,22 @@ void Node::propagateBBRoot() {
 //    See Recipe 1 in for knowing how to iterate through children.
 
 void Node::updateBB () {
+
+	// Ez du objekturik
+	if(this->m_gObject == 0){
+
+		for(list<Node *>::iterator it = m_children.begin(), end = m_children.end();
+			it != end; ++it) {
+			Node *theChild = *it;
+			if(theChild->m_gObject != 0){
+				this->m_containerWC->include(theChild->m_containerWC);
+			}
+		}
+	}
+	else{
+		this->m_containerWC->transform(this->m_placementWC);
+	}
+
 }
 
 // @@ TODO: Update WC (world coordinates matrix) of a node and
@@ -355,7 +372,7 @@ void Node::updateWC() {
 
    for(list<Node *>::iterator it = m_children.begin(), end = m_children.end(); it != end; ++it) {
        Node *theChild = *it;
-       theChild->updateWC(); // or any other thing
+       theChild->updateWC();
        theChild->updateBB();
    }
 
@@ -370,7 +387,19 @@ void Node::updateWC() {
 // - Propagate Bounding Box to root (propagateBBRoot), starting from the parent, if parent exists.
 
 void Node::updateGS() {
+
+	this->updateWC();
+
+    for(list<Node *>::iterator it = m_children.begin(), end = m_children.end();
+        it != end; ++it) {
+        Node *theChild = *it;
+        theChild->updateWC();
+    }
+	if (m_parent != 0){
+		this->propagateBBRoot();
+	}
 }
+
 
 // @@ TODO:
 // Draw a (sub)tree.
@@ -403,18 +432,18 @@ void Node::draw() {
 	// Print BBoxes
 	if(rs->getBBoxDraw() || m_drawBBox)
 		BBoxGL::draw( m_containerWC );
-
+                    
 	/* =================== PUT YOUR CODE HERE ====================== */
 
 	rs->push(RenderState::modelview); // push current matrix into modelview stack
-	rs->addTrfm(RenderState::modelview, m_placement); // Add T transformation to modelview
+	rs->addTrfm(RenderState::modelview, m_placementWC); // Add T transformation to modelview
 
 	if(m_children.size() != 0){
 
 		for(list<Node *>::iterator it = m_children.begin(), end = m_children.end();
 			it != end; ++it) {
 			Node *theChild = *it;
-			theChild->draw(); // or any other thing
+			theChild->draw();
 		}
 
 	}

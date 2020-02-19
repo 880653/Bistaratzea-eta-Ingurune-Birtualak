@@ -299,6 +299,10 @@ void Node::detach() {
 //    - placementWC of node and parents are up-to-date
 
 void Node::propagateBBRoot() {
+	this->updateBB();
+	if(this->m_parent != 0){
+		this->m_parent->propagateBBRoot();
+	}
 }
 
 // @@ TODO: auxiliary function
@@ -335,6 +339,10 @@ void Node::updateBB () {
 			it != end; ++it) {
 			Node *theChild = *it;
 			if(theChild->m_gObject != 0){
+
+				BBox *copia;
+				copia->clone(this->m_containerWC);
+				theChild->m_containerWC->init();
 				this->m_containerWC->include(theChild->m_containerWC);
 			}
 		}
@@ -364,7 +372,6 @@ void Node::updateWC() {
 
 	if (m_parent  != 0){
 		m_placementWC = m_parent->m_placementWC;
-
 	}
 	else{
 		m_placementWC == 0;

@@ -271,7 +271,7 @@ void Node::addChild(Node *theChild) {
 		printf("Node already has an gObject\n");
 	} else {
 		// node does not have gObject, so attach child
-		m_children.push_back(theChild);
+		this->m_children.push_back(theChild);
 		theChild->m_parent = this;
 		theChild->updateWC();
 	}
@@ -340,14 +340,13 @@ void Node::updateBB () {
 			Node *theChild = *it;
 			if(theChild->m_gObject != 0){
 
-				BBox *copia;
-				copia->clone(this->m_containerWC);
-				theChild->m_containerWC->init();
+				this->m_containerWC->init();
 				this->m_containerWC->include(theChild->m_containerWC);
 			}
 		}
 	}
 	else{
+		this->m_containerWC->init();
 		this->m_containerWC->transform(this->m_placementWC);
 	}
 
@@ -370,11 +369,11 @@ void Node::updateBB () {
 
 void Node::updateWC() {
 
-	if (m_parent  != 0){
-		m_placementWC = m_parent->m_placementWC;
+	if (this->m_parent != 0){
+		this->m_placementWC = m_parent->m_placementWC;
 	}
 	else{
-		m_placementWC == 0;
+		this->m_placementWC = this->m_placement;
 	}
 
    for(list<Node *>::iterator it = m_children.begin(), end = m_children.end(); it != end; ++it) {

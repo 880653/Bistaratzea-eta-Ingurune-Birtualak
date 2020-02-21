@@ -393,16 +393,17 @@ void Node::updateWC() {
 // - Propagate Bounding Box to root (propagateBBRoot), starting from the parent, if parent exists.
 
 void Node::updateGS() {
-
 	this->updateWC();
 
-    for(list<Node *>::iterator it = m_children.begin(), end = m_children.end();
+    for(list<Node *>::iterator it = this->m_children.begin(), end = this->m_children.end();
         it != end; ++it) {
         Node *theChild = *it;
         theChild->updateWC();
+
     }
 	if (m_parent != 0){
-		this->propagateBBRoot();
+		this->m_parent->propagateBBRoot();
+
 	}
 }
 
@@ -437,12 +438,14 @@ void Node::draw() {
 
 	// Print BBoxes
 	if(rs->getBBoxDraw() || m_drawBBox)
-		BBoxGL::draw( m_containerWC );
+		BBoxGL::draw( m_containerWC);
                     
 	/* =================== PUT YOUR CODE HERE ====================== */
 
 	rs->push(RenderState::modelview); // push current matrix into modelview stack
-	rs->addTrfm(RenderState::modelview, m_placementWC); // Add T transformation to modelview
+	//rs->addTrfm(RenderState::modelview, m_placementWC); // Add T transformation to modelview
+	rs->pop(RenderState::modelview); // pop matrix from modelview stack to current
+
 
 	if(m_children.size() != 0){
 
@@ -459,7 +462,6 @@ void Node::draw() {
 		
 	}
 
-	rs->pop(RenderState::modelview); // pop matrix from modelview stack to current
 	
 
 	/* =================== END YOUR CODE HERE ====================== */

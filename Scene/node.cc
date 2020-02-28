@@ -271,9 +271,10 @@ void Node::addChild(Node *theChild) {
 		printf("Node already has an gObject\n");
 	} else {
 		// node does not have gObject, so attach child
+		theChild->updateGS();
 		this->m_children.push_back(theChild);
 		theChild->m_parent = this;
-		theChild->updateWC();
+		//theChild->updateWC();
 	}
 }
 
@@ -300,9 +301,10 @@ void Node::detach() {
 
 void Node::propagateBBRoot() {
 	this->updateBB();
-	if(this->m_parent != 0){
+	if(this->m_parent){
 		this->m_parent->propagateBBRoot();
 	}
+
 }
 
 // @@ TODO: auxiliary function
@@ -332,11 +334,16 @@ void Node::propagateBBRoot() {
 
 void Node::updateBB () {
 
-	// Ez du objekturik
-	if(this->m_gObject == 0){
+	// Objektua du
+	if(this->m_gObject){
 
+		this->m_containerWC->init();
+		this->m_containerWC->transform(this->m_placementWC);
+
+	}
+	else{
 		for(list<Node *>::iterator it = m_children.begin(), end = m_children.end();
-			it != end; ++it) {
+		it != end; ++it) {
 			Node *theChild = *it;
 			if(theChild->m_gObject != 0){
 
@@ -344,10 +351,6 @@ void Node::updateBB () {
 				this->m_containerWC->include(theChild->m_containerWC);
 			}
 		}
-	}
-	else{
-		this->m_containerWC->init();
-		this->m_containerWC->transform(this->m_placementWC);
 	}
 
 }
@@ -369,18 +372,22 @@ void Node::updateBB () {
 
 void Node::updateWC() {
 
-	if (this->m_parent != 0){
-		this->m_placementWC = m_parent->m_placementWC;
+	if (this->m_parent){
+		this->m_placementWC->clone(m_parent->m_placementWC);
+		this->m_placementWC->add(this->m_placement);
+
 	}
 	else{
-		this->m_placementWC = this->m_placement;
+		this->m_placementWC->clone(this->m_placement);
+
 	}
 
    for(list<Node *>::iterator it = m_children.begin(), end = m_children.end(); it != end; ++it) {
        Node *theChild = *it;
        theChild->updateWC();
-       theChild->updateBB();
    }
+	this->updateBB();
+
 
 }
 
@@ -396,14 +403,13 @@ void Node::updateGS() {
 	this->updateWC();
 
     for(list<Node *>::iterator it = this->m_children.begin(), end = this->m_children.end();
-        it != end; ++it) {
+it != end; ++it) {
         Node *theChild = *it;
         theChild->updateWC();
 
     }
-	if (m_parent != 0){
+	if (this->m_parent){
 		this->m_parent->propagateBBRoot();
-
 	}
 }
 
@@ -442,27 +448,24 @@ void Node::draw() {
                     
 	/* =================== PUT YOUR CODE HERE ====================== */
 
-	rs->push(RenderState::modelview); // push current matrix into modelview stack
-	//rs->addTrfm(RenderState::modelview, m_placementWC); // Add T transformation to modelview
-	rs->pop(RenderState::modelview); // pop matrix from modelview stack to current
 
 
-	if(m_children.size() != 0){
+	if(m_gObject){
+		rs->push(RenderState::modelview); // push current matrix into modelview stack
+		rs->addTrfm(RenderState::modelview, m_placementWC); // Add T transformation to modelview
+		m_gObject->draw(); // draw geometry object (gobj) 
+		rs->pop(RenderState::modelview); // pop matrix from modelview stack to current
 
-		for(list<Node *>::iterator it = m_children.begin(), end = m_children.end();
-			it != end; ++it) {
-			Node *theChild = *it;
-			theChild->draw();
-		}
 
 	}
 	else{
-
-		m_gObject->draw(); // draw geometry object (gobj) 
-		
+		for(list<Node *>::iterator it = m_children.begin(), end = m_children.end(); it != end; ++it) {
+			Node *theChild = *it;
+			theChild->draw();
+		}
 	}
 
-	
+
 
 	/* =================== END YOUR CODE HERE ====================== */
 

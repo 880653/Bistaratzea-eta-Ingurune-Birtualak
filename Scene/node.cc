@@ -334,24 +334,32 @@ void Node::propagateBBRoot() {
 
 void Node::updateBB () {
 
+	this->m_containerWC->init();
+
+
 	// Objektua du
 	if(this->m_gObject){
 
-		this->m_containerWC->init();
-		this->m_containerWC->transform(this->m_placementWC);
+		this->m_containerWC->clone(this->m_containerWC);
 
 	}
-	else{
-		for(list<Node *>::iterator it = m_children.begin(), end = m_children.end();
-		it != end; ++it) {
-			Node *theChild = *it;
-			if(theChild->m_gObject != 0){
-
-				this->m_containerWC->init();
+	for(list<Node *>::iterator it = m_children.begin(), end = m_children.end();
+	it != end; ++it) {
+		Node *theChild = *it;
+		if(theChild->m_gObject){
+			if(this->m_containerWC){
 				this->m_containerWC->include(theChild->m_containerWC);
+
 			}
+			else{
+				this->m_containerWC->clone(theChild->m_containerWC);
+
+			}
+
+
 		}
 	}
+
 
 }
 

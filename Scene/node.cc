@@ -332,33 +332,37 @@ void Node::propagateBBRoot() {
 // Note:
 //    See Recipe 1 in for knowing how to iterate through children.
 
-void Node::updateBB () {
+void Node::updateBB() {
 
-	this->m_containerWC->init();
-
+	//this->m_containerWC->init();
 
 	// Objektua du
 	if(this->m_gObject){
 
-		this->m_containerWC->clone(this->m_containerWC);
+		this->m_containerWC->include(this->m_gObject->getContainer());
 
 	}
-	for(list<Node *>::iterator it = m_children.begin(), end = m_children.end();
-	it != end; ++it) {
-		Node *theChild = *it;
-		if(theChild->m_gObject){
-			if(this->m_containerWC){
-				this->m_containerWC->include(theChild->m_containerWC);
+	// Umeak ditu
+	else{
+		for(list<Node *>::iterator it = m_children.begin(), end = m_children.end(); it != end; ++it) {
+			Node *theChild = *it;
+			if(theChild->m_gObject){
+				//Umeak objektua du
+				if(theChild->m_gObject){
+					this->m_containerWC->include(theChild->m_gObject->getContainer());
+
+				}
+				//Umeak ume gehiago ditu
+				else{
+					this->m_containerWC->include(theChild->m_containerWC);
+
+				}
+
 
 			}
-			else{
-				this->m_containerWC->clone(theChild->m_containerWC);
-
-			}
-
-
 		}
 	}
+
 
 
 }
@@ -394,7 +398,7 @@ void Node::updateWC() {
        Node *theChild = *it;
        theChild->updateWC();
    }
-	this->updateBB();
+   this->updateBB();
 
 
 }

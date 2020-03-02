@@ -519,7 +519,7 @@ const Node *Node::checkCollision(const BSphere *bsph) const {
 	/* =================== PUT YOUR CODE HERE ====================== */
 	for(list<Node *>::const_iterator it = m_children.begin(), end = m_children.end(); it != end; ++it) {
 		const Node *theChild = *it;
-		if(BSphereBBoxIntersect(bsph, theChild->m_containerWC) == IINTERSECT){
+		if(BSphereBBoxIntersect(bsph, theChild->m_containerWC) == IREJECT){
 			return theChild;
 		}
 	}

@@ -32,19 +32,16 @@ bool Avatar::advance(float step) {
 
 	Node *rootNode = Scene::instance()->rootNode(); // root node of scene
 
-	if(rootNode->checkCollision() == 0){
-		return false;
+	if(rootNode->checkCollision(m_bsph) == 0){
+		if (m_walk)
+			m_cam->walk(step);
+		else
+			m_cam->fly(step);
+		return true;
 	}
 
-	if (BSphereBBoxIntersect(m_bsph, rootNode->getContainer()) == IINTERSECT){
-		return false;
-	}
+	return false;
 
-	if (m_walk)
-		m_cam->walk(step);
-	else
-		m_cam->fly(step);
-	return true;
 }
 
 void Avatar::leftRight(float angle) {

@@ -158,7 +158,16 @@ void Camera::setViewTrfm() {
 
 void Camera::updateFrame () {
 	/* =================== PUT YOUR CODE HERE ====================== */
+	// Vector3 h = m_E - m_At;
+	// m_D = h.normalize();
+	Vector3 F1 = m_E - m_At;
+	float F2 = F1.length();
 
+	float U2 = m_Up.length();
+
+	m_D = F1/F2;
+	m_R = crossVectors((m_Up/U2),m_D);
+	m_U = crossVectors(m_D,m_R);
 	/* =================== END YOUR CODE HERE ====================== */
 	setViewTrfm();
 }

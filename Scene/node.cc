@@ -300,9 +300,9 @@ void Node::detach() {
 //    - placementWC of node and parents are up-to-date
 
 void Node::propagateBBRoot() {
-	this->updateBB();
-	if(this->m_parent){
-		this->m_parent->propagateBBRoot();
+	updateBB();
+	if(m_parent){
+		m_parent->propagateBBRoot();
 	}
 
 }
@@ -337,9 +337,11 @@ void Node::updateBB() {
 	//this->m_containerWC->init();
 
 	// Objektua du
-	if(this->m_gObject){
+	if(m_gObject){
+		m_containerWC->init();
+		m_containerWC->clone(m_gObject->getContainer());
+		m_containerWC->transform(m_placementWC);
 
-		this->m_containerWC->include(this->m_gObject->getContainer());
 
 	}
 	// Umeak ditu
@@ -347,21 +349,18 @@ void Node::updateBB() {
 		for(list<Node *>::iterator it = m_children.begin(), end = m_children.end(); it != end; ++it) {
 			Node *theChild = *it;
 			if(theChild->m_gObject){
+
 				//Umeak objektua du
 				if(theChild->m_gObject){
-					this->m_containerWC->include(theChild->m_gObject->getContainer());
+					m_containerWC->include(theChild->m_gObject->getContainer());
 
 				}
-				//Umeak ume gehiago ditu
-				else{
-					this->m_containerWC->include(theChild->m_containerWC);
-
-				}
-
-
 			}
 		}
 	}
+
+
+	
 
 
 

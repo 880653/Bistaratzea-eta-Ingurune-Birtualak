@@ -128,7 +128,15 @@ void OrthographicCamera::updateProjection() {
 
 void PerspectiveCamera::updateProjection() {
 	/* =================== PUT YOUR CODE HERE ====================== */
+	
+	m_top = m_near*tan(m_fovy/2);
+	m_bottom = -m_top;
+	m_right = m_aspectRatio*m_top;
+	m_left = -m_right;
 
+	m_projTrfm->setFrustum(m_left, m_right,
+						 m_bottom, m_top,
+						 m_near, m_far);
 	/* =================== END YOUR CODE HERE ====================== */
 	updateFrustumPlanes();
 }

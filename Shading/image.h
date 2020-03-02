@@ -8,6 +8,7 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 
+
 // this class acts as a manager also
 
 class Image {

@@ -1,6 +1,8 @@
 #include "tools.h"
 #include "avatar.h"
 #include "scene.h"
+#include "intersect.h"
+#include "node.h"
 
 Avatar::Avatar(const std::string &name, Camera * cam, float radius) :
 	m_name(name), m_cam(cam), m_walk(false) {
@@ -29,6 +31,14 @@ bool Avatar::walkOrFly(bool walkOrFly) {
 bool Avatar::advance(float step) {
 
 	Node *rootNode = Scene::instance()->rootNode(); // root node of scene
+
+	if(rootNode->checkCollision() == 0){
+		return false;
+	}
+
+	if (BSphereBBoxIntersect(m_bsph, rootNode->getContainer()) == IINTERSECT){
+		return false;
+	}
 
 	if (m_walk)
 		m_cam->walk(step);

@@ -229,8 +229,18 @@ void Camera::projectionTrfmGL(float *gmatrix) const  { m_projTrfm->getGLMatrix(g
 void Camera::fly(float step) {
 
 	/* =================== put YOUR CODE HERE ====================== */
+	//aurrera/atzera
 	m_E -= step * m_D;
 	m_At -= step * m_D;
+
+	//ezker/eskuin
+	m_E += step * m_R;
+	m_At += step * m_R;
+
+	//gora/behera
+	m_E += step * m_U;
+	m_At += step * m_U;
+	updateProjection();
 	/* =================== END YOUR CODE HERE ====================== */
 
 	setViewTrfm();
@@ -244,11 +254,20 @@ void Camera::fly(float step) {
 void Camera::walk(float step) {
 
 	/* =================== PUT YOUR CODE HERE ====================== */
+	//aurrera/atzera
 	m_E[0] -= step * m_D[0];
 	m_E[2] -= step * m_D[2];
 
 	m_At[0] -= step * m_D[0];
 	m_At[2] -= step * m_D[2];
+
+	//ezker/eskuin
+	m_E[0] = step * m_R[0];
+	m_E[2] = step * m_R[2];
+
+	m_At[0] = step * m_R[0];
+	m_At[2] = step * m_R[2];
+	updateProjection();
 	/* =================== END YOUR CODE HERE ====================== */
 
 	setViewTrfm();

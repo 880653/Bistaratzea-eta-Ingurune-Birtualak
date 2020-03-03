@@ -73,6 +73,16 @@ int  BBoxPlaneIntersect (const BBox *theBBox, Plane *thePlane) {
 		min[0] = max[0];
 		max[0] = lag;
 	}
+	if((abs(min[1]-n[1])) > (abs(max[1]-n[1]))){
+		float lag = min[1];
+		min[1] = max[1];
+		max[1] = lag;
+	}
+	if((abs(min[2]-n[2])) > (abs(max[2]-n[2]))){
+		float lag = min[2];
+		min[2] = max[2];
+		max[2] = lag;
+	}
 	if(thePlane->whichSide(min) == -1)
 		return -IREJECT;
 	else if(thePlane->whichSide(max) ==1)

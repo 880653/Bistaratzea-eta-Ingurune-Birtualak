@@ -34,20 +34,40 @@ bool Avatar::advance(float step) {
 
 	m_bsph->setPosition(m_cam->getPosition());
 
-	if(rootNode->checkCollision(m_bsph) == 0){
-		if (m_walk)
-			m_cam->walk(step);
-		else
-			m_cam->fly(step);
-		return true;
+	if(step>0){
+		if(rootNode->checkCollision(m_bsph) == 0){
+			if (m_walk)
+				m_cam->walk(step);
+			else
+				m_cam->fly(step);
+			return true;
+		}
+		else{
+			if (m_walk)
+				m_cam->walk(-step);
+			else
+				m_cam->fly(-step);
+			return false;	
+		}
 	}
 	else{
-		if (m_walk)
-		// 	m_cam->walk(-step);
-		// else
-		// 	m_cam->fly(-step);
-		return false;	
+		if(rootNode->checkCollision(m_bsph) == 0){
+			if (m_walk)
+				m_cam->walk(step);
+			else
+				m_cam->fly(step);
+			return true;
+		}
+		else{
+			// if (m_walk)
+			// 	m_cam->walk(-step);
+			// else
+			// 	m_cam->fly(-step);
+			return false;	
+		}
 	}
+
+
 
 }
 

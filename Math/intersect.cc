@@ -67,30 +67,18 @@ int  BBoxBBoxIntersect(const BBox *bba, const BBox *bbb ) {
 int  BBoxPlaneIntersect (const BBox *theBBox, Plane *thePlane) {
 	Vector3 min = theBBox->m_min;
 	Vector3 max = theBBox->m_max;
-	Vector3 centre = (min+max)/2;
-
-	theBBox->print();
-
-	float d = thePlane->signedDistance(centre);
-	float r = ((max-min).normalize());
-
-
-	printf("%f\n", centre.normalize());
-
-	printf("%f\n", d);
-
-	printf("%f\n", r);
-
-	if (d<0 && -d>r){
+	Vector3 n = thePlane->m_n;
+	if((abs(min[0]-n[0])) > (abs(max[0]-n[0]))){
+		float lag = min[0];
+		min[0] = max[0];
+		max[0] = lag;
+	}
+	if(thePlane->whichSide(min) == -1)
 		return -IREJECT;
-	}
-	else if (d>0 && d>r){
+	else if(thePlane->whichSide(max) ==1)
 		return +IREJECT;
-	}
-	else{
+	else
 		return IINTERSECT;
-	}
-	return 0;
 }
 
 // Test if two BSpheres intersect.

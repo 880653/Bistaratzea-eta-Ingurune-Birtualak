@@ -166,7 +166,7 @@ void Camera::updateFrame () {
 	float U2 = m_Up.length();
 
 	m_D = F1/F2;
-	m_R = crossVectors((m_Up/U2),m_D);
+	m_R = crossVectors((m_Up/U2), m_D);
 	m_U = crossVectors(m_D,m_R);
 	/* =================== END YOUR CODE HERE ====================== */
 	setViewTrfm();

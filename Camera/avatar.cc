@@ -32,6 +32,8 @@ bool Avatar::advance(float step) {
 
 	Node *rootNode = Scene::instance()->rootNode(); // root node of scene
 
+	m_bsph->setPosition(m_cam->getPosition());
+
 	if(rootNode->checkCollision(m_bsph) == 0){
 		if (m_walk)
 			m_cam->walk(step);
@@ -39,8 +41,13 @@ bool Avatar::advance(float step) {
 			m_cam->fly(step);
 		return true;
 	}
-
-	return false;
+	else{
+		if (m_walk)
+		// 	m_cam->walk(-step);
+		// else
+		// 	m_cam->fly(-step);
+		return false;	
+	}
 
 }
 

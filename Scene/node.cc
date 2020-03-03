@@ -334,11 +334,9 @@ void Node::propagateBBRoot() {
 
 void Node::updateBB() {
 
-	//this->m_containerWC->init();
 
 	// Objektua du
 	if(m_gObject){
-		//m_containerWC->init();
 		m_containerWC->clone(m_gObject->getContainer());
 		m_containerWC->transform(m_placementWC);
 
@@ -355,13 +353,6 @@ void Node::updateBB() {
 		}
 
 	}
-
-	// if(m_parent){
-	// 	
-	// }
-	
-
-
 
 }
 
@@ -518,7 +509,8 @@ const Node *Node::checkCollision(const BSphere *bsph) const {
 	/* =================== PUT YOUR CODE HERE ====================== */
 	for(list<Node *>::const_iterator it = m_children.begin(), end = m_children.end(); it != end; ++it) {
 		const Node *theChild = *it;
-		if(BSphereBBoxIntersect(bsph, theChild->m_containerWC) == IREJECT){
+		if(BSphereBBoxIntersect(bsph, theChild->m_containerWC) == IINTERSECT){
+			printf("Mozten du\n");
 			return theChild;
 		}
 	}

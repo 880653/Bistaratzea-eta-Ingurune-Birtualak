@@ -338,28 +338,27 @@ void Node::updateBB() {
 
 	// Objektua du
 	if(m_gObject){
-		m_containerWC->init();
+		//m_containerWC->init();
 		m_containerWC->clone(m_gObject->getContainer());
 		m_containerWC->transform(m_placementWC);
+
 
 
 	}
 	// Umeak ditu
 	else{
+		m_containerWC->init();
 		for(list<Node *>::iterator it = m_children.begin(), end = m_children.end(); it != end; ++it) {
 			Node *theChild = *it;
-			if(theChild->m_gObject){
+			m_containerWC->include(theChild->m_containerWC);
 
-				//Umeak objektua du
-				if(theChild->m_gObject){
-					m_containerWC->include(theChild->m_gObject->getContainer());
-
-				}
-			}
 		}
+
 	}
 
-
+	// if(m_parent){
+	// 	
+	// }
 	
 
 

@@ -122,7 +122,9 @@ public:
 	 *     +1 BBOX fully outside frustum
 	 */
 
-	int checkFrustum(const BBox *theBBox, unsigned int *planesBitM);
+	//int checkFrustum(const BBox *theBBox, unsigned int *planesBitM);
+	int checkFrustum(const BBox *theBBox);
+		
 
 	friend class CameraManager;
 

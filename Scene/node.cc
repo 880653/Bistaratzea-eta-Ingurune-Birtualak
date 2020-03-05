@@ -492,6 +492,18 @@ void Node::setCulled(bool culled) {
 //          update m_isCulled accordingly.
 
 void Node::frustumCull(Camera *cam) {
+	// Frustumetik kanpo dago
+	if(cam->checkFrustum(this->m_containerWC) == 1)
+		m_isCulled = true;
+	// Frustumetik kanpo dago, nodoa margotu behar da
+	else{
+		m_isCulled = false;
+		this->draw();
+		for(list<Node *>::iterator it = m_children.begin(), end = m_children.end(); it != end; ++it) {
+			Node *theChild = *it;
+			theChild->draw(); // or any other thing
+		}
+	}
 }
 
 // @@ TODO: Check whether a BSphere (in world coordinates) intersects with a
@@ -510,7 +522,6 @@ const Node *Node::checkCollision(const BSphere *bsph) const {
 	for(list<Node *>::const_iterator it = m_children.begin(), end = m_children.end(); it != end; ++it) {
 		const Node *theChild = *it;
 		if(BSphereBBoxIntersect(bsph, theChild->m_containerWC) == IINTERSECT){
-			printf("Mozten du\n");
 			return theChild;
 		}
 	}

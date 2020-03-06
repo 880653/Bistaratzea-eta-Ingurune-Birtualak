@@ -498,13 +498,13 @@ void Node::frustumCull(Camera *cam) {
 	// Frustumetik kanpo dago
 	if(cam->checkFrustum(this->m_containerWC) == 1)
 		m_isCulled = true;
-	// Frustumetik kanpo dago, nodoa margotu behar da
+	// Frustumaren barruan dago, nodoa margotu behar da
 	else{
 		m_isCulled = false;
 		this->draw();
 		for(list<Node *>::iterator it = m_children.begin(), end = m_children.end(); it != end; ++it) {
 			Node *theChild = *it;
-			theChild->draw(); // or any other thing
+			theChild->frustumCull(cam); // or any other thing
 		}
 	}
 }

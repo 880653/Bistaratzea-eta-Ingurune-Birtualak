@@ -321,12 +321,34 @@ void  Camera::arcLeftRight(float angle) {
 
 // @@ TODO: Check frustum (look at camera.h for parameter descriptions and return
 //          values)
+// +1 	BBOx-a frustum-aren kanpoan dago.
+// 0 	BBOx-ak frustum-a ebakitzen du.
+// -1 	BBOx-ak frustum-aren barruan dago.
+
+//BBoxPlaneIntersect
+//   +IREJECT outside
+//   -IREJECT inside
+//    IINTERSECT intersect
 
 int Camera::checkFrustum(const BBox *theBBox) {
-	if( BBoxPlaneIntersect(theBBox, m_fPlanes[0]) == IINTERSECT)
-	// Plane *m_fPlanes[MAX_CLIP_PLANES]; // Frustum planes. A 6 elements of type plane. Order: (l,r,b,t,n,f)
-	// 								   // Note: normals point inside the frustum.
+	//BBox-ak cameraren planoren bat mozten badu, Frustuma ebakiko du.
+	if(BBoxPlaneIntersect(theBBox, m_fPlanes[0]) == IINTERSECT
+		|| BBoxPlaneIntersect(theBBox, m_fPlanes[1]) == IINTERSECT
+		|| BBoxPlaneIntersect(theBBox, m_fPlanes[2]) == IINTERSECT
+		|| BBoxPlaneIntersect(theBBox, m_fPlanes[3]) == IINTERSECT
+		|| BBoxPlaneIntersect(theBBox, m_fPlanes[4]) == IINTERSECT
+		|| BBoxPlaneIntersect(theBBox, m_fPlanes[5]) == IINTERSECT){
 
+		return 0;
+	}
+	//BBoax-a cameraren edozein planoren kanpoan badago, Frustumaren kanpoan dago
+	else if(BBoxPlaneIntersect(theBBox, m_fPlanes[0]) == IREJECT){
+		return +1;
+	}
+	//Bestela, BBox-a cameraren edozein planoren barruan badago, Frustumaren barruan dago
+	else{
+		return -1;
+	}
 	return -1; // BBox is fully inside the frustum
 }
 

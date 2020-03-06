@@ -191,7 +191,7 @@ protected:
 
 
 	Plane *m_fPlanes[MAX_CLIP_PLANES]; // Frustum planes. A 6 elements of type plane. Order: (l,r,b,t,n,f)
-									   // Note: normals point inside the frustum.
+									   // Note: normals point outside the frustum.
 
 };
 

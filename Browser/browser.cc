@@ -569,10 +569,10 @@ int main(int argc, char** argv) {
 		InitLight();
 		InitShaders();
 		// Change the line below for different scenes
-		displayNode = create_scene();
+		//displayNode = create_scene();
 		// Other possible scenes:
 		//
-		// displayNode = create_scene_city();
+		displayNode = create_scene_city();
 	}
 
 	Scene::instance()->attach(displayNode);

@@ -65,30 +65,28 @@ int  BBoxBBoxIntersect(const BBox *bba, const BBox *bbb ) {
 //    IINTERSECT intersect
 
 int  BBoxPlaneIntersect (const BBox *theBBox, Plane *thePlane) {
-	Vector3 min = theBBox->m_min;
-	Vector3 max = theBBox->m_max;
-	Vector3 n = thePlane->m_n;
-	if((abs(min[0]-n[0])) > (abs(max[0]-n[0]))){
-		float lag = min[0];
-		min[0] = max[0];
-		max[0] = lag;
+
+	Vector3 Vmin;
+	Vector3 Vmax;
+
+	int min_side;
+	int max_side;
+
+	for(size_t i = 0; i<3; i++){
+		if(thePlane->m_n[i]>=0.0f){
+			Vmin[i] = theBBox->m_min[i];
+			Vmax[i] = theBBox->m_max[i];
+		}
+		else{
+			Vmin[i] = theBBox->m_max[i];
+			Vmax[i] = theBBox->m_min[i];
+		}
 	}
-	if((abs(min[1]-n[1])) > (abs(max[1]-n[1]))){
-		float lag = min[1];
-		min[1] = max[1];
-		max[1] = lag;
-	}
-	if((abs(min[2]-n[2])) > (abs(max[2]-n[2]))){
-		float lag = min[2];
-		min[2] = max[2];
-		max[2] = lag;
-	}
-	if(thePlane->whichSide(min) == -1)
-		return -IREJECT;
-	else if(thePlane->whichSide(max) ==1)
-		return +IREJECT;
-	else
-		return IINTERSECT;
+	min_side = thePlane->whichSide(Vmin);
+	if(min_side > 0) return IREJECT;
+	max_side = thePlane->whichSide(Vmax);
+	if(max_side < 0) return -IREJECT;
+	return IINTERSECT;
 }
 
 // Test if two BSpheres intersect.

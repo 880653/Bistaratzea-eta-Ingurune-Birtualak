@@ -452,17 +452,20 @@ void Node::draw() {
 
 
 	if(m_gObject){
-		rs->push(RenderState::modelview); // push current matrix into modelview stack
-		rs->addTrfm(RenderState::modelview, m_placementWC); // Add T transformation to modelview
-		m_gObject->draw(); // draw geometry object (gobj) 
-		rs->pop(RenderState::modelview); // pop matrix from modelview stack to current
-
+		if(m_isCulled == false){
+			rs->push(RenderState::modelview); // push current matrix into modelview stack
+			rs->addTrfm(RenderState::modelview, m_placementWC); // Add T transformation to modelview
+			m_gObject->draw(); // draw geometry object (gobj) 
+			rs->pop(RenderState::modelview); // pop matrix from modelview stack to current
+		}
 
 	}
 	else{
-		for(list<Node *>::iterator it = m_children.begin(), end = m_children.end(); it != end; ++it) {
-			Node *theChild = *it;
-			theChild->draw();
+		if(m_isCulled == false){
+			for(list<Node *>::iterator it = m_children.begin(), end = m_children.end(); it != end; ++it) {
+				Node *theChild = *it;
+				theChild->draw();
+			}
 		}
 	}
 

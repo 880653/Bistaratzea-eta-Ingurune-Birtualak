@@ -330,31 +330,49 @@ void  Camera::arcLeftRight(float angle) {
 //   -IREJECT inside
 //    IINTERSECT intersect
 
+// int Camera::checkFrustum(const BBox *theBBox) {
+// 	//BBox-ak cameraren planoren bat mozten badu, Frustuma ebakiko du.
+// 	if(BBoxPlaneIntersect(theBBox, m_fPlanes[0]) == IINTERSECT
+// 		|| BBoxPlaneIntersect(theBBox, m_fPlanes[1]) == IINTERSECT
+// 		|| BBoxPlaneIntersect(theBBox, m_fPlanes[2]) == IINTERSECT
+// 		|| BBoxPlaneIntersect(theBBox, m_fPlanes[3]) == IINTERSECT
+// 		|| BBoxPlaneIntersect(theBBox, m_fPlanes[4]) == IINTERSECT
+// 		|| BBoxPlaneIntersect(theBBox, m_fPlanes[5]) == IINTERSECT){
+
+// 		return 0;
+// 	}
+// 	//BBoax-a cameraren edozein planoren kanpoan badago, Frustumaren barruan dago
+// 	else if(BBoxPlaneIntersect(theBBox, m_fPlanes[0]) == -IREJECT
+// 		&& BBoxPlaneIntersect(theBBox, m_fPlanes[1]) == -IREJECT
+// 		&& BBoxPlaneIntersect(theBBox, m_fPlanes[2]) == -IREJECT
+// 		&& BBoxPlaneIntersect(theBBox, m_fPlanes[3]) == -IREJECT
+// 		&& BBoxPlaneIntersect(theBBox, m_fPlanes[4]) == -IREJECT
+// 		&& BBoxPlaneIntersect(theBBox, m_fPlanes[5]) == -IREJECT){
+// 		return -1;
+// 	}
+// 	//Bestela, BBox-a cameraren edozein planoren barruan badago, Frustumaren kanpoan dago
+// 	else{
+// 		return +1;
+// 	}
+// 	//return -1; // BBox is fully inside the frustum
+// }
+
 int Camera::checkFrustum(const BBox *theBBox) {
 	//BBox-ak cameraren planoren bat mozten badu, Frustuma ebakiko du.
-	if(BBoxPlaneIntersect(theBBox, m_fPlanes[0]) == IINTERSECT
-		|| BBoxPlaneIntersect(theBBox, m_fPlanes[1]) == IINTERSECT
-		|| BBoxPlaneIntersect(theBBox, m_fPlanes[2]) == IINTERSECT
-		|| BBoxPlaneIntersect(theBBox, m_fPlanes[3]) == IINTERSECT
-		|| BBoxPlaneIntersect(theBBox, m_fPlanes[4]) == IINTERSECT
-		|| BBoxPlaneIntersect(theBBox, m_fPlanes[5]) == IINTERSECT){
+	if(BBoxPlaneIntersect(theBBox, m_fPlanes[0]) == IREJECT
+		|| BBoxPlaneIntersect(theBBox, m_fPlanes[1]) == IREJECT
+		|| BBoxPlaneIntersect(theBBox, m_fPlanes[2]) == IREJECT
+		|| BBoxPlaneIntersect(theBBox, m_fPlanes[3]) == IREJECT
+		|| BBoxPlaneIntersect(theBBox, m_fPlanes[4]) == IREJECT
+		|| BBoxPlaneIntersect(theBBox, m_fPlanes[5]) == IREJECT){
 
-		return 0;
-	}
-	//BBoax-a cameraren edozein planoren kanpoan badago, Frustumaren barruan dago
-	else if(BBoxPlaneIntersect(theBBox, m_fPlanes[0]) == IREJECT
-		&& BBoxPlaneIntersect(theBBox, m_fPlanes[1]) == IREJECT
-		&& BBoxPlaneIntersect(theBBox, m_fPlanes[2]) == IREJECT
-		&& BBoxPlaneIntersect(theBBox, m_fPlanes[3]) == IREJECT
-		&& BBoxPlaneIntersect(theBBox, m_fPlanes[4]) == IREJECT
-		&& BBoxPlaneIntersect(theBBox, m_fPlanes[5]) == IREJECT){
-		return -1;
-	}
-	//Bestela, BBox-a cameraren edozein planoren barruan badago, Frustumaren kanpoan dago
-	else{
 		return +1;
 	}
-	return -1; // BBox is fully inside the frustum
+	//BBoax-a cameraren edozein planoren kanpoan badago, Frustumaren barruan dago
+	else{
+		return -1;
+	}
+	//return -1; // BBox is fully inside the frustum
 }
 
 // // @@ TODO: Check frustum (look at camera.h for parameter descriptions and return

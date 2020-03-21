@@ -253,6 +253,9 @@ void ShaderProgram::beforeDraw() {
 			this->send_uniform("texture0", Constants::gl_texunits::texture); // Texture unit 0
 		}
 	}
+	if(this->has_capability("sc")){
+		this->send_uniform("sc", rs->getSc());
+	}
 }
 
 void ShaderProgram::print() const {

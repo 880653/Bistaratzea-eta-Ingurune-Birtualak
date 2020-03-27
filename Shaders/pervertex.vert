@@ -35,5 +35,9 @@ varying vec2 f_texCoord;
 
 
 void main() {
+
+	vec4 normal = modelToCameraMatrix * vec4(v_normal, 1.0);
+	vec4 l = normalize(-1*theLights[0].position.xyz);
+	f_color = scene_ambient + max(0, dot(normal, l))*(theMaterial.diffuse * theLights[0].diffuse);
 	gl_Position = modelToClipMatrix * vec4(v_position, 1);
 }

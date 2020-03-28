@@ -541,7 +541,8 @@ void animate(int value) {
 	if (runAnimation) {
 		// Force a redisplay to render the new image
 		angle += 0.05;
-		RenderState::instance()->setSc(fabsf(cosf(angle)));
+		RenderState * rs = RenderState::instance();
+		rs->setSc(fabsf(cosf(angle)));
 		glutPostRedisplay();
 	}
 	// ##### END OF GAME/APP MAIN CODE #####

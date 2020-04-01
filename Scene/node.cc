@@ -271,10 +271,9 @@ void Node::addChild(Node *theChild) {
 		printf("Node already has an gObject\n");
 	} else {
 		// node does not have gObject, so attach child
-		theChild->updateGS();
 		this->m_children.push_back(theChild);
 		theChild->m_parent = this;
-		//theChild->updateWC();
+		theChild->updateGS();
 	}
 }
 

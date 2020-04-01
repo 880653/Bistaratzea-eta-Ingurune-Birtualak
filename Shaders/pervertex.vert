@@ -36,7 +36,7 @@ varying vec2 f_texCoord;
 
 void main() {
 
-	vec4 normal = modelToCameraMatrix * vec4(v_normal, 1.0);
+	vec4 normal = modelToCameraMatrix * vec4(v_normal, 0.0);
 	vec4 l = normalize(-1*theLights[0].position);
 	vec3 lag = scene_ambient + max(0, dot(normal, l))*(theMaterial.diffuse * theLights[0].diffuse);
 	f_color = vec4(lag, 1.0);

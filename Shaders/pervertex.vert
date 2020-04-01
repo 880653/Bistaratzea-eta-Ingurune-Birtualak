@@ -38,7 +38,27 @@ void main() {
 
 	vec4 normal = modelToCameraMatrix * vec4(v_normal, 0.0);
 	vec4 l = normalize(-1*theLights[0].position);
-	vec3 lag = scene_ambient + max(0, dot(normal, l))*(theMaterial.diffuse * theLights[0].diffuse);
+
+	//difusoa
+	vec3 diffuse = theMaterial.diffuse * theLights[0].diffuse;
+
+	//cam: kameraren posizioa
+	vec4 cam = vec4(0.0);
+
+	//erp: erpinaren posizioa
+	vec4 erp = modelToCameraMatrix * vec4(v_position, 0.0);
+
+	//v: erpinetik kamerara doan bektore unitarioa
+	vec4 v = normalize(cam - erp);
+
+	//r 
+	vec4 r = (2*(normal*l)*normal) - l;
+	
+	//espekularra
+	vec3 spec = pow(max(0, dot(r, v)), theMaterial.shininess) * theMaterial.specular * theLights[0].specular;
+
+	vec3 lag = scene_ambient + max(0, dot(normal, l))*(diffuse + spec);
+	
 	f_color = vec4(lag, 1.0);
 	gl_Position = modelToClipMatrix * vec4(v_position, 1);
 }

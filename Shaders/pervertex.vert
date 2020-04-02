@@ -43,10 +43,13 @@ void main() {
 	vec3 diffuse = theMaterial.diffuse * theLights[0].diffuse;
 
 	//erp: erpinaren posizioa
-	vec4 erp = modelToCameraMatrix * vec4(v_position, 0.0);
+	vec4 erp = vec4(v_position, 0.0);
+
+	//arg: argiaren posizioa
+	vec4 arg = vec4(theLights[0].position);
 
 	//v: erpinetik kamerara doan bektore unitarioa
-	vec4 v = normalize(erp);
+	vec4 v = normalize(erp-arg);
 
 	//r 
 	vec4 r = (2*(normal*l)*normal) - l;

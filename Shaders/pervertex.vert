@@ -61,12 +61,13 @@ void main() {
 		//espekularra
 		vec3 spec = pow(max(0, dot(r, v)), theMaterial.shininess) * theMaterial.specular * theLights[i].specular;
 
-		lag = scene_ambient + max(0, dot(normal, l))*(diffuse + spec);
+		lag = lag + max(0, dot(normal, l))*(diffuse + spec);
 
 	}
 
+	vec3 argia = scene_ambient + lag;
 
-	f_color = vec4(lag, 1.0);
+	f_color = vec4(argia, 1.0);
 	gl_Position = modelToClipMatrix * vec4(v_position, 1);
 
 

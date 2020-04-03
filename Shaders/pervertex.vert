@@ -37,28 +37,37 @@ varying vec2 f_texCoord;
 void main() {
 
 	vec4 normal = modelToCameraMatrix * vec4(v_normal, 0.0);
-	vec4 l = normalize(-1*theLights[0].position);
 
-	//difusoa
-	vec3 diffuse = theMaterial.diffuse * theLights[0].diffuse;
+	vec3 lag = vec3(0.0);
 
-	//erp: erpinaren posizioa
-	vec4 erp = vec4(v_position, 0.0);
+	for(int i = 0; i<4; i++){
+		vec4 l = normalize(-1*theLights[i].position);
 
-	//arg: argiaren posizioa
-	vec4 arg = vec4(theLights[0].position);
+		//difusoa
+		vec3 diffuse = theMaterial.diffuse * theLights[i].diffuse;
 
-	//v: erpinetik kamerara doan bektore unitarioa
-	vec4 v = normalize(erp-arg);
+		//erp: erpinaren posizioa
+		vec4 erp = vec4(v_position, 0.0);
 
-	//r 
-	vec4 r = (2*(normal*l)*normal) - l;
-	
-	//espekularra
-	vec3 spec = pow(max(0, dot(r, v)), theMaterial.shininess) * theMaterial.specular * theLights[0].specular;
+		//arg: argiaren posizioa
+		vec4 arg = vec4(theLights[i].position);
 
-	vec3 lag = scene_ambient + max(0, dot(normal, l))*(diffuse + spec);
-	
+		//v: erpinetik kamerara doan bektore unitarioa
+		vec4 v = normalize(erp-arg);
+
+		//r 
+		vec4 r = (2*(normal*l)*normal) - l;
+		
+		//espekularra
+		vec3 spec = pow(max(0, dot(r, v)), theMaterial.shininess) * theMaterial.specular * theLights[i].specular;
+
+		lag = scene_ambient + max(0, dot(normal, l))*(diffuse + spec);
+
+	}
+
+
 	f_color = vec4(lag, 1.0);
 	gl_Position = modelToClipMatrix * vec4(v_position, 1);
+
+
 }

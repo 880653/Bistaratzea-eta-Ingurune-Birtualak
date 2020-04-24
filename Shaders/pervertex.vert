@@ -40,7 +40,21 @@ void main() {
 
 	vec3 lag = vec3(0.0);
 
+	//char m_type;
+
 	for(int i = 0; i<4; i++){
+
+//		if(theLights[i].posizin.w == 0.0f){
+//			m_type = directinal;
+//		}
+//		else if(acos(theLights[i].cosCutOff) = 90.0f){
+//			m_type = positional;
+//		}
+//		else{
+//			m_type = spotlight;
+//		}
+
+
 		vec4 l = normalize(-1*theLights[i].position);
 
 		//difusoa

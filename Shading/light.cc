@@ -96,6 +96,7 @@ void Light::placeScene() {
 
 	if (m_type == directional){
 		m_positionEye = modelView.transformVector(m_position);
+		m_positionEye.normalize();
 	}
 	else if(m_type == positional){
 		m_positionEye = modelView.transformPoint(m_position);
@@ -103,9 +104,10 @@ void Light::placeScene() {
 	else if(m_type == spotlight){
 		m_positionEye = modelView.transformPoint(m_position);
 		m_spotDirectionEye = modelView.transformVector(m_spotDirection);
+		m_spotDirectionEye.normalize();
 	}
 	/* =================== END YOUR CODE HERE ====================== */
-} 
+}
 
 void Light::setSpotData(const Vector3 & direction,
 						float cutOff, float exponent) {

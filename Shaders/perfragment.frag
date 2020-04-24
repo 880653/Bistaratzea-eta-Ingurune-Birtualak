@@ -27,13 +27,24 @@ varying vec3 f_viewDirection; // camera space
 varying vec3 f_normal;        // camera space
 varying vec2 f_texCoord;
 
+vec4 f_color;
+
 
 void main() {
 
 
-vec4 normal = modelToCameraMatrix * vec4(v_normal, 0.0);
+	vec3 normal = f_normal;
 
 	vec3 lag = vec3(0.0);
+
+vec4 normal = modelToCameraMatrix * vec4(v_normal, 0.0);
+
+
+	vec4 normal = modelToCameraMatrix * vec4(v_normal, 0.0);
+
+	vec3 lag = vec3(0.0);
+
+	//char m_type;
 
 	for(int i = 0; i<4; i++){
 
@@ -68,6 +79,6 @@ vec4 normal = modelToCameraMatrix * vec4(v_normal, 0.0);
 
 	f_texCoord = v_texCoord;
 
-	gl_FragColor = vec4(1.0);
+	gl_FragColor = f_color*texColor;
 
 }

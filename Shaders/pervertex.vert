@@ -101,9 +101,9 @@ void main() {
 		}
 	}
 
-	argia = scene_ambient + lag;
+	vec3 totala = scene_ambient + argia;
 
-	f_color = vec4(argia, 1.0);
+	f_color = vec4(totala, 1.0);
 
 	gl_Position = modelToClipMatrix * vec4(v_position, 1);
 

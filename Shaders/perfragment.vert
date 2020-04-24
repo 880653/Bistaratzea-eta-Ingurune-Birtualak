@@ -17,5 +17,6 @@ varying vec3 f_normal;
 varying vec2 f_texCoord;
 
 void main() {
+	
 	gl_Position = modelToClipMatrix * vec4(v_position, 1.0);
 }

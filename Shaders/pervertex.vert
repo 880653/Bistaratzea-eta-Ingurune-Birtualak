@@ -84,5 +84,8 @@ void main() {
 	f_color = vec4(argia, 1.0);
 	gl_Position = modelToClipMatrix * vec4(v_position, 1);
 
+	f_texCoord = v_texCoord;
+
+
 
 }

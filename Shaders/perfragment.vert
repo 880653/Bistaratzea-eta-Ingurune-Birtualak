@@ -19,7 +19,7 @@ varying vec2 f_texCoord;
 void main() {
 
 	f_position = (modelToCameraMatrix * vec4(v_position, 1.0)).xyz;
-	f_viewDirection = normalize(vec4(v_position, 0.0)-vec4(theLights[i].position));
+	f_viewDirection = normalize(vec4(v_position, 0.0) - vec4(theLights[i].position));
 	f_texCoord = v_texCoord;
 	gl_Position = modelToClipMatrix * vec4(v_position, 1.0);
 	varying f_color;

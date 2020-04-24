@@ -33,44 +33,29 @@ vec4 f_color;
 void main() {
 
 
-	vec3 normal = f_normal;
+	vec3 normal = (modelToCameraMatrix * vec4(v_position, 1.0)).xyz;
+	vec3 spec = vec3(0.0, 0.0, 0.0);
+	vec3 itot = vec3(0.0, 0.0, 0.0);
+	vec3 argia = vec3(0.0, 0.0, 0.0);
 
-	vec3 lag = vec3(0.0);
+	for(int i=0; i<active_lights_n; i++){
 
-vec4 normal = modelToCameraMatrix * vec4(v_normal, 0.0);
-
-
-	vec4 normal = modelToCameraMatrix * vec4(v_normal, 0.0);
-
-	vec3 lag = vec3(0.0);
-
-	//char m_type;
-
-	for(int i = 0; i<4; i++){
-
-		vec4 l = normalize(-1*theLights[i].position);
-
-		//difusoa
-		vec3 diffuse = theMaterial.diffuse * theLights[i].diffuse;
-
-		//erp: erpinaren posizioa
-		vec4 erp = vec4(v_position, 0.0);
-
-		//arg: argiaren posizioa
-		vec4 arg = vec4(theLights[i].position);
-
-		//v: erpinetik kamerara doan bektore unitarioa
-		vec4 v = normalize(erp-arg);
-
-		//r 
-		vec4 r = (2*(normal*l)*normal) - l;
-		
-		//espekularra
-		vec3 spec = pow(max(0, dot(r, v)), theMaterial.shininess) * theMaterial.specular * theLights[i].specular;
-
-		lag = lag + max(0, dot(normal, l))*(diffuse + spec);
+		//Direkzionala
+		if(theLights[i].position.w == 0.0){
+			vec3 lag = normalize(-1.0 * theLights[i].position.xyz);
+			vec3 r = (2*(dot(normal, lag))*normal) - lag;
+			vec3 v = normalize(vec4(v_position, 0.0) - vec4(theLights[i].position));
+			spec = pow(max(0, dot(r,v)), theMaterial.shininess) * (theMaterial.specular * theLights[i].specular);
+			itot = max(0, dot(normal, lag)) * ((theMaterial.diffuse * theLights[i].diffuse) + spec);
+			argia = argia + itot;
+		}
+		vec3 j = scene_ambient + argia;
+		f_color = vec4(j, 1.0);
+		vec4 texColor = texture2D(texture0, f_texCoord);
+		gl_Position = modelToClipMatrix * vec4(v_position, 1);
 
 	}
+	f_texCoord = v_texCoord;
 
 	vec3 argia = scene_ambient + lag;
 

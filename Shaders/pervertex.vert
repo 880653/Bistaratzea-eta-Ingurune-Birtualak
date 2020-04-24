@@ -35,12 +35,12 @@ varying vec2 f_texCoord;
 
 
 void main() {
-	vec3 normal = normalize((modelToCameraMatrix * vec4(v_position, 1.0)).xyz);
+	vec3 normal = normalize((modelToCameraMatrix * vec4(v_normal, 0.0)).xyz);
 	vec3 spec = vec3(0.0, 0.0, 0.0);
 	vec3 itot = vec3(0.0, 0.0, 0.0);
 	vec3 argia = vec3(0.0, 0.0, 0.0);
 	vec3 lag, r, v, p;
-	float d;
+	float d, cspot;
 
 	for(int i=0; i<active_lights_n; i++){
 
@@ -78,8 +78,27 @@ void main() {
 			
 			argia = argia + itot;
 		}
+		//Fokua
+		else{
+			p = (modelToCameraMatrix * vec4(v_position, 1.0)).xyz;
 
+			lag = normalize(theLights[i].position.xyz - p);
+			
+			r = normalize(2*(dot(normal, lag))*normal) - lag;
+			
+			v = normalize((modelToCameraMatrix * vec4((-1.0 * v_position), -1.0)).xyz);
+			
+			spec = pow(max(0, dot(r,v)), theMaterial.shininess) * (theMaterial.specular * theLights[i].specular);
+			
+			cspot = max(dot(-1.0 * lag, normalize(theLights[i].spotDir)), 0);
 
+			if(cspot > theLights[i].cosCutOff){
+
+				itot = pow(cspot, theLights[i].exponent) * max(0, dot(normal, lag)) * ((theMaterial.diffuse * theLights[i].diffuse) + spec);
+			
+				argia = argia + itot;
+			}
+		}
 	}
 
 	argia = scene_ambient + lag;

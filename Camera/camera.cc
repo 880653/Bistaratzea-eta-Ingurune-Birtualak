@@ -368,6 +368,15 @@ int Camera::checkFrustum(const BBox *theBBox) {
 
 		return +1;
 	}
+	else if(BBoxPlaneIntersect(theBBox, m_fPlanes[0]) == IINTERSECT
+		|| BBoxPlaneIntersect(theBBox, m_fPlanes[1]) == IINTERSECT
+		|| BBoxPlaneIntersect(theBBox, m_fPlanes[2]) == IINTERSECT
+		|| BBoxPlaneIntersect(theBBox, m_fPlanes[3]) == IINTERSECT
+		|| BBoxPlaneIntersect(theBBox, m_fPlanes[4]) == IINTERSECT
+		|| BBoxPlaneIntersect(theBBox, m_fPlanes[5]) == IINTERSECT){
+
+		return 0;
+	}
 	//BBoax-a cameraren edozein planoren kanpoan badago, Frustumaren barruan dago
 	else{
 		return -1;

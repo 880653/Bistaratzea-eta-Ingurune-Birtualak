@@ -501,12 +501,14 @@ void Node::frustumCull(Camera *cam) {
 	// Frustumaren barruan dago, nodoa margotu behar da
 	else{
 		m_isCulled = false;
-		this->draw();
-		for(list<Node *>::iterator it = m_children.begin(), end = m_children.end(); it != end; ++it) {
-			Node *theChild = *it;
-			//theChild->m_isCulled = false;
-			//theChild->draw();
-			theChild->frustumCull(cam); // or any other thing
+		if(cam->checkFrustum(this->m_containerWC) != 1){
+			this->draw();
+			for(list<Node *>::iterator it = m_children.begin(), end = m_children.end(); it != end; ++it) {
+				Node *theChild = *it;
+				//theChild->m_isCulled = false;
+				//theChild->draw();
+				theChild->frustumCull(cam); // or any other thing
+			}
 		}
 	}
 }

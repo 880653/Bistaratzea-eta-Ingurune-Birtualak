@@ -20,11 +20,11 @@ void main() {
 
 	f_position = (modelToCameraMatrix * vec4(v_position, 1.0)).xyz;
 	
-	f_viewDirection = normalize((modelToCameraMatrix * vec4((-1.0 * v_position), -1.0)).xyz);
+	f_viewDirection = (modelToCameraMatrix * vec4((-1.0 * v_position), 1.0)).xyz;
 
 	f_texCoord = v_texCoord;
 	
-	f_normal = normalize((modelToCameraMatrix * vec4(v_normal, 0.0)).xyz);
+	f_normal = (modelToCameraMatrix * vec4(v_normal, 0.0)).xyz;
 
 	gl_Position = modelToClipMatrix * vec4(v_position, 1.0);
 }

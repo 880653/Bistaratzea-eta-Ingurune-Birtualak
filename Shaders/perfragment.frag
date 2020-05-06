@@ -32,7 +32,7 @@ vec4 f_color;
 
 void main() {
 
-	vec3 normal = f_normal;
+	vec3 normal = normalize(f_normal);
 	vec3 spec = vec3(0.0, 0.0, 0.0);
 	vec3 itot = vec3(0.0, 0.0, 0.0);
 	vec3 argia = vec3(0.0, 0.0, 0.0);
@@ -46,9 +46,9 @@ void main() {
 
 			lag = normalize(-1.0 * theLights[i].position.xyz);
 
-			r = normalize(2*(dot(normal, lag))*normal) - lag;
+			r = normalize(2*(dot(normal, lag))*normal - lag);
 
-			v = f_viewDirection;
+			v = normalize(f_viewDirection);
 
 			spec = pow(max(0, dot(r,v)), theMaterial.shininess) * (theMaterial.specular * theLights[i].specular);
 			
@@ -63,9 +63,9 @@ void main() {
 
 			lag = normalize(theLights[i].position.xyz - p);
 			
-			r = normalize(2*(dot(normal, lag))*normal) - lag;
+			r = normalize(2*(dot(normal, lag))*normal - lag);
 			
-			v = f_viewDirection;
+			v = normalize(f_viewDirection);
 
 			spec = pow(max(0, dot(r,v)), theMaterial.shininess) * (theMaterial.specular * theLights[i].specular);
 			
@@ -81,9 +81,9 @@ void main() {
 
 			lag = normalize(theLights[i].position.xyz - p);
 			
-			r = normalize(2*(dot(normal, lag))*normal) - lag;
+			r = normalize(2*(dot(normal, lag))*normal - lag);
 			
-			v = f_viewDirection;
+			v = normalize(f_viewDirection);
 
 			spec = pow(max(0, dot(r,v)), theMaterial.shininess) * (theMaterial.specular * theLights[i].specular);
 			

@@ -49,9 +49,9 @@ void main() {
 
 			lag = normalize(-1.0 * theLights[i].position.xyz);
 
-			r = normalize(2*(dot(normal, lag))*normal) - lag;
+			r = normalize(2*(dot(normal, lag))*normal - lag);
 
-			v = normalize((modelToCameraMatrix * vec4((-1.0 * v_position), -1.0)).xyz);
+			v = normalize((modelToCameraMatrix * vec4((-1.0 * v_position), 1.0)).xyz);
 			
 			spec = pow(max(0, dot(r,v)), theMaterial.shininess) * (theMaterial.specular * theLights[i].specular);
 			
@@ -66,9 +66,9 @@ void main() {
 
 			lag = normalize(theLights[i].position.xyz - p);
 			
-			r = normalize(2*(dot(normal, lag))*normal) - lag;
+			r = normalize(2*(dot(normal, lag))*normal - lag);
 			
-			v = normalize((modelToCameraMatrix * vec4((-1.0 * v_position), -1.0)).xyz);
+			v = normalize((modelToCameraMatrix * vec4((-1.0 * v_position), 1.0)).xyz);
 			
 			spec = pow(max(0, dot(r,v)), theMaterial.shininess) * (theMaterial.specular * theLights[i].specular);
 			
@@ -84,9 +84,9 @@ void main() {
 
 			lag = normalize(theLights[i].position.xyz - p);
 			
-			r = normalize(2*(dot(normal, lag))*normal) - lag;
+			r = normalize(2*(dot(normal, lag))*normal - lag);
 			
-			v = normalize((modelToCameraMatrix * vec4((-1.0 * v_position), -1.0)).xyz);
+			v = normalize((modelToCameraMatrix * vec4((-1.0 * v_position), 1.0)).xyz);
 			
 			spec = pow(max(0, dot(r,v)), theMaterial.shininess) * (theMaterial.specular * theLights[i].specular);
 			

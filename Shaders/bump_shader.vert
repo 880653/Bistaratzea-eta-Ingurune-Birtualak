@@ -43,9 +43,9 @@ void main() {
 	vec3 b = MV3x3 * v_TBN_b;
 	vec3 n = MV3x3 * v_normal;
 
-	mat3 cameraToTangent = 0;
+	//mat3 cameraToTangent = 0;
 
-	f_lightDirection = 0;
+	//f_lightDirection = 0;
 
 	gl_Position = modelToClipMatrix * vec4(v_position, 1.0);
 }

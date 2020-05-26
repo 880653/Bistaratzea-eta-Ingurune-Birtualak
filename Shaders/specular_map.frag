@@ -37,6 +37,9 @@ void main() {
 	vec3 argia = vec3(0.0, 0.0, 0.0);
 	vec3 lag, r, v, p;
 	float d, cspot;
+	vec4 texel4 = texture2D(texture0, f_texCoord);
+	vec3 texel = vec3(texel4[0], texel4[1], texel4[2]);
+
 
 
 	for(int i=0; i<active_lights_n; i++){
@@ -50,7 +53,7 @@ void main() {
 
 			v = normalize(f_viewDirection);
 
-			spec = pow(max(0, dot(r,v)), theMaterial.shininess) * (theMaterial.specular * theLights[i].specular);
+			spec = pow(max(0, dot(r,v)), theMaterial.shininess) * (texel * theLights[i].specular);
 			
 			itot = max(0, dot(normal, lag)) * ((theMaterial.diffuse * theLights[i].diffuse) + spec);
 			
@@ -67,7 +70,7 @@ void main() {
 			
 			v = normalize(f_viewDirection);
 
-			spec = pow(max(0, dot(r,v)), theMaterial.shininess) * (theMaterial.specular * theLights[i].specular);
+			spec = pow(max(0, dot(r,v)), theMaterial.shininess) * (texel * theLights[i].specular);
 			
 			d = 1/(theLights[i].attenuation[0] + (theLights[i].attenuation[1] * length(theLights[i].position.xyz - p)) + theLights[i].attenuation[2] * pow(length(theLights[i].position.xyz - p), 2));
 			
@@ -85,7 +88,7 @@ void main() {
 			
 			v = normalize(f_viewDirection);
 
-			spec = pow(max(0, dot(r,v)), theMaterial.shininess) * (theMaterial.specular * theLights[i].specular);
+			spec = pow(max(0, dot(r,v)), theMaterial.shininess) * (texel * theLights[i].specular);
 			
 			cspot = max(dot(-1.0 * lag, normalize(theLights[i].spotDir)), 0);
 

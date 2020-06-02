@@ -263,6 +263,13 @@ void ShaderProgram::beforeDraw() {
 			this->send_uniform("specmap", Constants::gl_texunits::specular);
 		}
 	}
+	if(this->has_capability("bump")){
+		tex = mat->getSpecularMap();
+		if(tex != 0){
+			tex->bindGLUnit(Constants::gl_texunits::specular);
+			this->send_uniform("bump", Constants::gl_texunits::specular);
+		}
+	}
 }
 
 void ShaderProgram::print() const {

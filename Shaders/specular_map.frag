@@ -37,7 +37,8 @@ void main() {
 	vec3 argia = vec3(0.0, 0.0, 0.0);
 	vec3 lag, r, v, p;
 	float d, cspot;
-	vec4 texel4 = texture2D(texture0, f_texCoord);
+	
+	vec4 texel4 = texture2D(specmap, f_texCoord);
 	vec3 texel = vec3(texel4[0], texel4[1], texel4[2]);
 
 

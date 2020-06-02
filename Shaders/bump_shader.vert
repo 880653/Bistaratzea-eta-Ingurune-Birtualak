@@ -46,21 +46,14 @@ void main() {
 	vec3 b = MV3x3 * v_TBN_b;
 
 	vec3 f_position = MV3x3 * v_position;
-	//vec3 f_texCoord = MV3x3 * v_texCoord;
+	vec3 f_texCoord3 = MV3x3 * vec3(v_texCoord, 1.0);
+	f_texCoord = vec2(f_texCoord3[0], f_texCoord3[1]);
 
 	// matrix to transform from camera space to tangent space
 	mat3 cameraToTangent = transpose(mat3(t, b, n));
 
-	// camera space -> tangent space
-	//vec3 f_lightDirection = f_lightDirection * cameraToTangent;
-	//vec3 f_viewDirection = f_viewDirection * cameraToTangent;
-	//vec3 f_spotDirection = f_spotDirection * cameraToTangent;
 
-	gl_Position = modelToClipMatrix * vec4(v_position, 1.0);
-
-/////////////////////////////////////////////////////
-
-	vec3 l, p;
+	vec3 l;
 	
 	for(int i=0; i<active_lights_n; i++){
 
@@ -73,18 +66,24 @@ void main() {
 		//Posizionala
 		else if(theLights[i].cosCutOff == 0.0f){
 
-			p = f_position;
-
-			l = theLights[i].position.xyz - p;
-			
-			}
-		//Fokua
-		else{
-			p = f_position;
-
-			l = normalize(theLights[i].position.xyz - p);
+			l = theLights[i].position.xyz - f_position;
 			
 		}
+		//Fokua
+		else{
+
+			l = theLights[i].position.xyz - f_position;
+			
+		}
+		// camera space -> tangent space
+		f_lightDirection[i] = cameraToTangent * l;
+
+		//vec3 f_viewDirection = f_viewDirection * cameraToTangent;
+		//vec3 f_spotDirection = f_spotDirection * cameraToTangent;
+
 	}
+
+	
+	gl_Position = modelToClipMatrix * vec4(v_position, 1.0);
 
 }

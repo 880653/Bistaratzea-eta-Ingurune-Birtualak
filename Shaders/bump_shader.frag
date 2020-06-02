@@ -32,5 +32,16 @@ varying vec3 f_lightDirection[4]; // tangent space
 varying vec3 f_spotDirection[4];  // tangent space
 
 void main() {
-	gl_FragColor = vec4(1.0);
+
+	// Base color
+	vec4 baseColor = texture2D(texture0, f_texCoord);
+
+	// Decode the tangent space normal (from[0..1] to [-1..+1])
+	vec3 N = texture2D(bumpmap, f_texCoord).rgb * 2.0 - 1.0;
+
+	// Compute ambient, diffuse and specular contribution
+	vec4 f_color = vec4(1.0);
+	
+	// Final color
+	gl_FragColor = f_color * baseColor;
 }

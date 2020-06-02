@@ -90,6 +90,16 @@
             "name" : "sky",
             "vshader" : "Shaders/sky.vert",
             "fshader" : "Shaders/sky.frag"
+        },
+        {
+            "name" : "cube_env",
+            "vshader" : "Shaders/environment_map.vert",
+            "fshader" : "Shaders/environment_map.frag",
+			"uniforms" : [
+				{"name" : "envmap", "type" : "usampler"},
+				{"name" : "campos", "type" : "uvec3" }
+			],
+			"capabilities" : [ "cube_env" ]
         }
     ],
     "lights" : [
@@ -141,6 +151,16 @@
             "yneg" : "./obj/sky/yneg.jpg",
             "zpos" : "./obj/sky/zpos.jpg",
             "zneg" : "./obj/sky/zneg.jpg"
+        },
+        {
+            "name" : "CubeEnv",
+            "type" : "cubemap",
+            "xpos" : "./obj/sky/sphere_env_xpos.jpg",
+            "xneg" : "./obj/sky/sphere_env_xneg.jpg",
+            "ypos" : "./obj/sky/sphere_env_ypos.jpg",
+            "yneg" : "./obj/sky/sphere_env_yneg.jpg",
+            "zpos" : "./obj/sky/sphere_env_zpos.jpg",
+            "zneg" : "./obj/sky/sphere_env_zneg.jpg"
         }
     ],
     "node" : {
@@ -151,7 +171,8 @@
             {
                 "name" : "smooth",
                 "gObj" : "./obj/spheres/smooth.obj",
-                "trfm" : [ { "trans" : [-20, 0, 0] } ]
+                "trfm" : [ { "trans" : [-20, 0, 0] } ],
+				"shader" : "cube_env"
             },
             {
                 "name" : "chapel",

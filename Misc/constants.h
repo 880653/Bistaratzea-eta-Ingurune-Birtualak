@@ -16,5 +16,6 @@ struct Constants {
 		static const int specular;   // Texture unit 2
 		static const int projective; // Texture unit 3
 		static const int shadow;     // Texture unit 4
+		static const int envmap;     // Texture unit 5
 	};
 };

@@ -276,7 +276,7 @@ static void populate_cameras(Json::Value & cameras) {
 			P = ((json_float(camera["left"], left)) &&
 				 (json_float(camera["right"], right) && right > left) &&
 				 (json_float(camera["near"], near) && near > 0.0f) &&
-				 (json_float(camera["far"], far) && (near > far)) &&
+				 (json_float(camera["far"], far) && (far > near)) &&
 				 (json_float(camera["top"], top)) &&
 				 (json_float(camera["bottom"], bottom) && (top > bottom)));
 			if (!P) {
@@ -476,72 +476,68 @@ static void populate_textures(Json::Value & textures) {
 
 static void populate_materials(Json::Value & materials) {
 	// materials is of type json::type_t::array
-	if(!materials.isArray()) {
-		fprintf(stderr, "[E] reading JSON file: no materials.\n");
-	} else {
-		int n = materials.size();
-		for(int i = 0; i < n; i++) {
-			Json::Value & material = materials[i];
-			bool P;
-			string name;
-			if (!json_string(material["name"], name)) {
-				fprintf(stderr, "[E] reading JSON file: material with no name.\n");
+	int n = materials.size();
+	for(int i = 0; i < n; i++) {
+		Json::Value & material = materials[i];
+		bool P;
+		string name;
+		if (!json_string(material["name"], name)) {
+			fprintf(stderr, "[E] reading JSON file: material with no name.\n");
+			exit(1);
+		}
+
+		Material *newMaterial = MaterialManager::instance()->create(name);
+
+		Vector3 dif;
+		P = json_vec(material["diffuse"], dif);
+		if (P) {
+			newMaterial->setDiffuse(dif);
+		}
+
+		Vector3 spec;
+		float shininess;
+		P = json_vec(material["specular"], spec);
+		if (P) {
+			P = json_float(material["shininess"], shininess);
+			if (!P) {
+				shininess = 0.0;
+			}
+			newMaterial->setSpecular(spec, shininess);
+		}
+
+		string brdf;
+		P = ( json_string(material["brdf"], brdf) );
+
+		if (brdf == "cookTorrance") {
+			float roughness, f0, k;
+			P = ((json_float(material["roughness"], roughness) && roughness > 0.0f) &&
+				 (json_float(material["f0"], f0) && f0 > 0.0f) &&
+				 (json_float(material["k"], k) && (k > 0.0f))
+				 );
+			if (!P) {
+				fprintf(stderr, "[E] reading JSON file: bad parameters for material %s.\n", name.c_str());
 				exit(1);
 			}
-
-			Material *newMaterial = MaterialManager::instance()->create(name);
-
-			Vector3 dif;
-			P = json_vec(material["diffuse"], dif);
-			if (P) {
-				newMaterial->setDiffuse(dif);
-			}
-
-			Vector3 spec;
-			float shininess;
-			P = json_vec(material["specular"], spec);
-			if (P) {
-				P = json_float(material["shininess"], shininess);
-				if (!P) {
-					shininess = 0.0;
-				}
-				newMaterial->setSpecular(spec, shininess);
-			}
-
-			string brdf;
-			P = ( json_string(material["brdf"], brdf) );
-
-			if (brdf == "cookTorrance") {
-				float roughness, f0, k;
-				P = ((json_float(material["roughness"], roughness) && roughness > 0.0f) &&
-					 (json_float(material["f0"], f0) && f0 > 0.0f) &&
-					 (json_float(material["k"], k) && (k > 0.0f))
-				);
-				if (!P) {
-					fprintf(stderr, "[E] reading JSON file: bad parameters for material %s.\n", name.c_str());
-					exit(1);
-				}
-				//newMaterial->setCookTorrance(roughness, f0, k);
-			}
-			string texName;
-			P = json_string(material["texture"], texName);
-			if (P) {
-				Texture *tex = TextureManager::instance()->find(texName);
-				if (tex)
-					newMaterial->setTexture(tex);
-			}
-			P = json_string(material["bumpMap"], texName);
-			if (P) {
-				Texture *tex = TextureManager::instance()->find(texName);
-				if (tex)
-					newMaterial->setBumpMap(tex);
-			}
-			P = json_string(material["specularMap"], texName);
-			if (P) {
-				Texture *tex = TextureManager::instance()->find(texName);
-				if (tex)
-					newMaterial->setSpecularMap(tex);
-			}
+			//newMaterial->setCookTorrance(roughness, f0, k);
+		}
+		string texName;
+		P = json_string(material["texture"], texName);
+		if (P) {
+			Texture *tex = TextureManager::instance()->find(texName);
+			if (tex)
+				newMaterial->setTexture(tex);
+		}
+		P = json_string(material["bumpMap"], texName);
+		if (P) {
+			Texture *tex = TextureManager::instance()->find(texName);
+			if (tex)
+				newMaterial->setBumpMap(tex);
+		}
+		P = json_string(material["specularMap"], texName);
+		if (P) {
+			Texture *tex = TextureManager::instance()->find(texName);
+			if (tex)
+				newMaterial->setSpecularMap(tex);
 		}
 	}
 }
@@ -621,9 +617,9 @@ static void populate_sky(Json::Value & jssky) {
 		exit(1);
 	}
 	// texture
-	string cmapdir;
-	if (!json_string(jssky["cubemapdir"], cmapdir)) {
-		fprintf(stderr, "[E] reading JSON file: sky has no cubemap directory\n");
+	string cmap;
+	if (!json_string(jssky["cubemap"], cmap)) {
+		fprintf(stderr, "[E] reading JSON file: sky has no cubemap texture\n");
 		exit(1);
 	}
 	// gObject
@@ -649,7 +645,7 @@ static void populate_sky(Json::Value & jssky) {
 		exit(1);
 	}
 	// create node
-	CreateSkybox(skyGObj, skyshader, cmapdir);
+	CreateSkybox(skyGObj, skyshader, cmap);
 }
 
 static void populate_global(Json::Value & jsglobal) {

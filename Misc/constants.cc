@@ -12,3 +12,4 @@ const int Constants::gl_texunits::bump = 1;
 const int Constants::gl_texunits::specular = 2;
 const int Constants::gl_texunits::projective = 3;
 const int Constants::gl_texunits::shadow = 4;
+const int Constants::gl_texunits::envmap = 4;

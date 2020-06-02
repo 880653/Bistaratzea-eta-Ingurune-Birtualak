@@ -6,6 +6,7 @@
 #include "scenes.h"
 #include "skybox.h"
 
+
 // global variables
 static float step = 0.5; // advance/retreat step
 const static float angle_step = 1.0f * Constants::degree_to_rad; // angular step (rotations, etc)
@@ -21,8 +22,6 @@ static int prevTime;
 // Global variables mouse
 static int mouse_pre_x = -1;
 static int mouse_pre_y = -1;
-
-static float angle = 0.0f;
 
 static void switchAllLights(bool onOff) {
 	for(LightManager::iterator it = LightManager::instance()->begin(), end = LightManager::instance()->end();
@@ -213,6 +212,7 @@ static void Render(Camera *theCamera) {
 	RenderState *rs = RenderState::instance();
 	LightManager *lmgr = LightManager::instance();
 
+	rs->setCamera(theCamera);
 	// draw the background color
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	rs->loadTrfm(RenderState::projection, theCamera->projectionTrfm());
@@ -540,9 +540,7 @@ void animate(int value) {
 	// ##### REPLACE WITH YOUR OWN GAME/APP MAIN CODE HERE #####
 	if (runAnimation) {
 		// Force a redisplay to render the new image
-		angle += 0.05;
-		RenderState * rs = RenderState::instance();
-		rs->setSc(fabsf(cosf(angle)));
+
 		glutPostRedisplay();
 	}
 	// ##### END OF GAME/APP MAIN CODE #####
@@ -573,10 +571,10 @@ int main(int argc, char** argv) {
 		InitLight();
 		InitShaders();
 		// Change the line below for different scenes
-		//displayNode = create_scene();
+		displayNode = create_scene();
 		// Other possible scenes:
 		//
-		displayNode = create_scene_city();
+		// displayNode = create_scene_city();
 	}
 
 	Scene::instance()->attach(displayNode);

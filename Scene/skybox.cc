@@ -58,7 +58,15 @@ void CreateSkybox(GObject *gobj,
 		exit(1);
 	}
 	/* =================== PUT YOUR CODE HERE ====================== */
+	Material *mat = MaterialManager::instance()->create(ctexname);
+	mat->Material::setTexture(ctex);
+	gobj->GObject::setMaterial(mat);
 
+	Node *nod = NodeManager::instance()->create(cnodname);
+	nod->Node::attachShader(skyshader);
+	nod->Node::attachGobject(gobj);
+
+	RenderState::instance()->setSkybox(nod);
 	/* =================== END YOUR CODE HERE ====================== */
 }
 

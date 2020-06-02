@@ -454,6 +454,7 @@ void Node::draw() {
 		if(m_isCulled == false){
 			rs->push(RenderState::modelview); // push current matrix into modelview stack
 			rs->addTrfm(RenderState::modelview, m_placementWC); // Add T transformation to modelview
+			rs->loadTrfm(RenderState::model, m_placementWC);
 			m_gObject->draw(); // draw geometry object (gobj) 
 			rs->pop(RenderState::modelview); // pop matrix from modelview stack to current
 		}

@@ -35,6 +35,7 @@ varying vec2 f_texCoord;
 varying vec3 f_viewDirection;     // tangent space
 varying vec3 f_lightDirection[4]; // tangent space
 varying vec3 f_spotDirection[4];  // tangent space
+varying vec3 f_position;
 
 void main() {
 	// get 3x3 modelview matrix
@@ -45,7 +46,7 @@ void main() {
 	vec3 t = MV3x3 * v_TBN_t;
 	vec3 b = MV3x3 * v_TBN_b;
 
-	vec3 f_position = MV3x3 * v_position;
+	f_position = MV3x3 * v_position;
 	vec3 f_texCoord3 = MV3x3 * vec3(v_texCoord, 1.0);
 	f_texCoord = vec2(f_texCoord3[0], f_texCoord3[1]);
 
@@ -78,8 +79,11 @@ void main() {
 		// camera space -> tangent space
 		f_lightDirection[i] = cameraToTangent * l;
 
-		//vec3 f_viewDirection = f_viewDirection * cameraToTangent;
-		//vec3 f_spotDirection = f_spotDirection * cameraToTangent;
+		f_viewDirection = (cameraToTangent * vec3(-1.0 * v_position));
+
+		// f_spotDirection[i]
+
+
 
 	}
 

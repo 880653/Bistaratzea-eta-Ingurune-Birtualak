@@ -30,6 +30,7 @@ varying vec2 f_texCoord;
 varying vec3 f_viewDirection;     // tangent space
 varying vec3 f_lightDirection[4]; // tangent space
 varying vec3 f_spotDirection[4];  // tangent space
+varying vec3 f_position;
 
 void main() {
 
@@ -46,55 +47,59 @@ void main() {
 	vec3 spec = vec3(0.0, 0.0, 0.0);
 	vec3 itot = vec3(0.0, 0.0, 0.0);
 	vec3 argia = vec3(0.0, 0.0, 0.0);
-	vec3 lag, r, v, p;
+	vec3 l, r, v, p;
 	float d, cspot;
 
-	vec3 texel = texture2D(bumpmap, f_texCoord).rgb;
+	//vec3 texel = texture2D(bumpmap, f_texCoord).rgb;
 
 	for(int i=0; i<active_lights_n; i++){
+		l = normalize(f_lightDirection[i]);
 
 		//Direkzionala
 		if(theLights[i].position.w == 0.0f){
 
-			r = normalize(2*(dot(normal, f_lightDirection[i]))*normal - f_lightDirection[i]);
+			r = normalize(2*(dot(normal, l))*normal - l);
 
 			v = normalize(f_viewDirection);
 
-			spec = pow(max(0, dot(r,v)), theMaterial.shininess) * (texel * theLights[i].specular);
+			spec = pow(max(0, dot(r,v)), theMaterial.shininess) * (theMaterial.specular * theLights[i].specular);
 			
-			itot = max(0, dot(normal, f_lightDirection[i])) * ((theMaterial.diffuse * theLights[i].diffuse) + spec);
+			itot = max(0, dot(normal, l)) * ((theMaterial.diffuse * theLights[i].diffuse) + spec);
 			
 			argia = argia + itot;
 		}
 		//Posizionala
 		else if(theLights[i].cosCutOff == 0.0f){
+
+			p = f_position;
 			
-			r = normalize(2*(dot(normal, f_lightDirection[i]))*normal - f_lightDirection[i]);
+			r = normalize(2*(dot(normal, l))*normal - l);
 			
 			v = normalize(f_viewDirection);
 
-			spec = pow(max(0, dot(r,v)), theMaterial.shininess) * (texel * theLights[i].specular);
+			spec = pow(max(0, dot(r,v)), theMaterial.shininess) * (theMaterial.specular * theLights[i].specular);
 			
 			d = 1/(theLights[i].attenuation[0] + (theLights[i].attenuation[1] * length(theLights[i].position.xyz - p)) + theLights[i].attenuation[2] * pow(length(theLights[i].position.xyz - p), 2));
 			
-			itot = (d * max(0, dot(normal, f_lightDirection[i])) * ((theMaterial.diffuse * theLights[i].diffuse) + spec));
+			itot = (d * max(0, dot(normal, l)) * ((theMaterial.diffuse * theLights[i].diffuse) + spec));
 			
 			argia = argia + itot;
 		}
 		//Fokua
 		else{
 			
-			r = normalize(2*(dot(normal, f_lightDirection[i]))*normal - f_lightDirection[i]);
+			
+			r = normalize(2*(dot(normal, l))*normal - l);
 			
 			v = normalize(f_viewDirection);
 
-			spec = pow(max(0, dot(r,v)), theMaterial.shininess) * (texel * theLights[i].specular);
+			spec = pow(max(0, dot(r,v)), theMaterial.shininess) * (theMaterial.specular * theLights[i].specular);
 			
-			cspot = max(dot(-1.0 * f_lightDirection[i], normalize(theLights[i].spotDir)), 0);
+			cspot = max(dot(-1.0 * l, normalize(theLights[i].spotDir)), 0);
 
 			if(cspot > theLights[i].cosCutOff){
 
-				itot = pow(cspot, theLights[i].exponent) * max(0, dot(normal, f_lightDirection[i])) * ((theMaterial.diffuse * theLights[i].diffuse) + spec);
+				itot = pow(cspot, theLights[i].exponent) * max(0, dot(normal, l)) * ((theMaterial.diffuse * theLights[i].diffuse) + spec);
 			
 				argia = argia + itot;
 			}
@@ -105,8 +110,6 @@ void main() {
 
 	vec4 f_color = vec4(totala, 1.0);
 	
-
-
 
 	// Final color
 	gl_FragColor = f_color * baseColor;

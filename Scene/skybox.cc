@@ -107,6 +107,25 @@ void DisplaySky(Camera *cam) {
 	if (!skynode) return;
 
 	/* =================== PUT YOUR CODE HERE ====================== */
+	// - Store previous shader
+	RenderState *shad = RenderState::instance()->getShader();
+	RenderState::instance()->push(shad->modelview);
+	
+	// - Move Skybox to camera location, so that it always surrounds camera.
+	
+	// - Disable depth test.
+	glDisable(GL_DEPTH_TEST);
 
+	// - Set skybox shader
+	RenderState::instance()->setShader(skynode->getShader());
+
+	// - Draw skybox object.
+	skynode->getGobject->draw();
+
+	// - Restore depth test
+	glEnable(GL_DEPTH_TEST);
+
+	// - Set previous shader
+	RenderState::instance()->pop(shad->modelview);
 	/* =================== END YOUR CODE HERE ====================== */
 }

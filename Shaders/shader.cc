@@ -270,6 +270,11 @@ void ShaderProgram::beforeDraw() {
 			this->send_uniform("bumpmap", Constants::gl_texunits::specular);
 		}
 	}
+	if(this->has_capability("cube_env")){
+		tex->bindGLUnit(Constants::gl_texunits::envmap);
+		this->send_uniform("envmap", Constants::gl_texunits::envmap);
+		this->send_uniform("campos", rs->getCamera());
+	}
 }
 
 void ShaderProgram::print() const {

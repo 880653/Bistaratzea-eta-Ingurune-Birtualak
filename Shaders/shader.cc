@@ -273,7 +273,7 @@ void ShaderProgram::beforeDraw() {
 	if(this->has_capability("cube_env")){
 		tex->bindGLUnit(Constants::gl_texunits::envmap);
 		this->send_uniform("envmap", Constants::gl_texunits::envmap);
-		this->send_uniform("campos", rs->getCamera());
+		//this->send_uniform("campos", rs->getCamera()->getPosition());
 	}
 }
 

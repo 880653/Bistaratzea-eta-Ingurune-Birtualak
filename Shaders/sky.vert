@@ -13,5 +13,5 @@ void main() {
 
 	gl_Position = modelToClipMatrix * vec4(v_position, 1.0);
 
-	f_texCoord = -1 * v_position;
+	f_texCoord = vec3(v_position.x, v_position.y, -1 * v_position.z);
 }

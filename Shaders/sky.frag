@@ -10,6 +10,6 @@ uniform samplerCube cubemap;
 void main() {
 
 	vec4 texColor = textureCube(cubemap, f_texCoord);
-	
-	gl_FragColor = vec4(1.0);
+
+	gl_FragColor = texColor;
 }

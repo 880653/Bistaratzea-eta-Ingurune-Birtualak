@@ -424,9 +424,9 @@ static void populate_textures(Json::Value & textures) {
 				exit(1);
 			}
 			if(ttype == Texture::rt_depth)
-				tm->createDepthMap(name, height, width);
+				tm->createRTDepth(name, height, width);
 			else
-				tm->createColorMap(name, height, width);
+				tm->createRTColor(name, height, width);
 			break;
 		case Texture::cubemap:
 			if (!json_string(texture["xpos"], xpos)) {

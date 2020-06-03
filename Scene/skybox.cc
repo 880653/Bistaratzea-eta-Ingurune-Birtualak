@@ -58,15 +58,27 @@ void CreateSkybox(GObject *gobj,
 		exit(1);
 	}
 	/* =================== PUT YOUR CODE HERE ====================== */
-	Material *mat = MaterialManager::instance()->create(ctexname);
+	// - Create a new material.
+	Material *mat = MaterialManager::instance()->create("ctexname");
+	
+	// - Assign cubemap texture to material.
 	mat->Material::setTexture(ctex);
+
+	// - Assign material to geometry object gobj
 	gobj->GObject::setMaterial(mat);
 
-	Node *nod = NodeManager::instance()->create(cnodname);
+	// - Create a new Node.
+	Node *nod = NodeManager::instance()->create("cnodname");
+	
+	// - Assign shader to node.
 	nod->Node::attachShader(skyshader);
+
+	// - Assign geometry object to node.
 	nod->Node::attachGobject(gobj);
 
+	// - Set sky node in RenderState.
 	RenderState::instance()->setSkybox(nod);
+	
 	/* =================== END YOUR CODE HERE ====================== */
 }
 
@@ -108,7 +120,7 @@ void DisplaySky(Camera *cam) {
 
 	/* =================== PUT YOUR CODE HERE ====================== */
 	// - Store previous shader
-	RenderState *shad = RenderState::instance()->getShader();
+	RenderState *shad = rs->getShader();
 	RenderState::instance()->push(shad->modelview);
 	
 	// - Move Skybox to camera location, so that it always surrounds camera.
@@ -120,7 +132,7 @@ void DisplaySky(Camera *cam) {
 	RenderState::instance()->setShader(skynode->getShader());
 
 	// - Draw skybox object.
-	skynode->getGobject->draw();
+	skynode->getGobject()->draw();
 
 	// - Restore depth test
 	glEnable(GL_DEPTH_TEST);

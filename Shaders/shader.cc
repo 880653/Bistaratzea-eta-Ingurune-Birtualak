@@ -196,9 +196,9 @@ template<class V> void ShaderProgram::send_uniform(const std::string uname, cons
 
 void ShaderProgram::beforeDraw() {
 
-	Material *mat = rs->getFrontMaterial();
 	Texture *tex;
 	RenderState *rs = RenderState::instance();
+	Material *mat = rs->getFrontMaterial();
 	static char buffer[1024];
 
 	this->send_uniform("modelToCameraMatrix", rs->top(RenderState::modelview));

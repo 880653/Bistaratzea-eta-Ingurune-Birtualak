@@ -240,6 +240,19 @@ static void Display() {
 
 	Render(theCamera);
 	glutSwapBuffers();
+
+	// Lehenengo errenderizazioa
+	TextureRT *rtex = eskuratu_xede_testura();
+	Camera *lightC = eskuratu_argiaren_kamera();
+	rtex->bind();
+	erabili_shader("dummy");
+	Render(lightC);
+	rtex->unbind();
+
+	// Bigarren errenderizazioa
+	Ms_ezarri(lightC);
+	erabili_shader("shadowmap");
+	Render(mainCamera);
 }
 
 // Keyboard dispatcher when ALT key is pressed

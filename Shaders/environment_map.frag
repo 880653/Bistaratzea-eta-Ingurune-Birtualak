@@ -41,16 +41,21 @@ void main() {
 	vec3 argia = vec3(0.0, 0.0, 0.0);
 	vec3 lag, r, v, p;
 	float d, cspot;
+	vec4 texColor;
 
 	for(int i=0; i<active_lights_n; i++){
 
 		//Direkzionala
 		if(theLights[i].position.w == 0.0f){
 
-			lag = normalize(-1.0 * theLights[i].position.xyz);
+			lag = normalize(-1.0 * campos);
 
-			r = normalize(2*(dot(normal, lag))*normal - lag);
+			r = normalize(2*(dot(f_normalw, lag))*f_normalw - lag);
 
+			r = vec3(r.x, r.y, -1 * r.z);
+
+			texColor = textureCube(envmap, r);
+			
 			v = normalize(f_viewDirection);
 
 			spec = pow(max(0, dot(r,v)), theMaterial.shininess) * (theMaterial.specular * theLights[i].specular);
@@ -64,10 +69,14 @@ void main() {
 
 			p = f_position;
 
-			lag = normalize(theLights[i].position.xyz - p);
+			lag = normalize(campos - f_positionw);
 			
-			r = normalize(2*(dot(normal, lag))*normal - lag);
-			
+			r = normalize(2*(dot(f_normalw, lag))*f_normalw - lag);
+
+			r = vec3(r.x, r.y, -1 * r.z);
+
+			texColor = textureCube(envmap, r);
+
 			v = normalize(f_viewDirection);
 
 			spec = pow(max(0, dot(r,v)), theMaterial.shininess) * (theMaterial.specular * theLights[i].specular);
@@ -82,9 +91,13 @@ void main() {
 		else{
 			p = f_position;
 
-			lag = normalize(theLights[i].position.xyz - p);
+			lag = normalize(campos - f_positionw);
 			
-			r = normalize(2*(dot(normal, lag))*normal - lag);
+			r = normalize(2*(dot(f_normalw, lag))*f_normalw - lag);
+
+			r = vec3(r.x, r.y, -1 * r.z);
+
+			texColor = textureCube(envmap, r);
 			
 			v = normalize(f_viewDirection);
 
@@ -100,12 +113,11 @@ void main() {
 			}
 		}
 	}
+	
 
 	vec3 totala = scene_ambient + argia;
 
 	vec4 f_color = vec4(totala, 1.0);
-
-	vec4 texColor = texture2D(texture0, f_texCoord);
 
 	gl_FragColor = f_color * texColor;
 }

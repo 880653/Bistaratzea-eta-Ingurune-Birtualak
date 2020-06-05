@@ -15,6 +15,8 @@ RenderState::RenderState() :
 	m_ambient(Vector3(0.05f, 0.05f, 0.05)),
 	m_activeShader(0),
 	m_sc(1.0f),
+	rtex(NULL),
+	Ms(NULL),
 	m_drawBBox(false) {}
 
 RenderState::~RenderState() {}
@@ -202,4 +204,16 @@ void RenderState::print() const {
 
 	printf("Shader: %s\n", m_activeShader ? m_activeShader->getName() : "NULL");
 	bool m_drawBBox;
+
 }
+ 
+
+	///////////////////////////////////////////
+	// Itzalak inplementatzeko
+	void RenderState::setRTex(TextureRT *rtexx){ rtex = rtexx; }
+
+	TextureRT *RenderState::getRTex(){ return rtex; }
+
+	void RenderState::setMs(Trfm3D *Mss){ Ms = Mss; }
+
+	Trfm3D *RenderState::getMs(){ return Ms; }

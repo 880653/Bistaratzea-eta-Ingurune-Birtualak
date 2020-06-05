@@ -85,7 +85,7 @@
             "name" : "shadow",
             "vshader" : "Shaders/shadowmap.vert",
             "fshader" : "Shaders/shadowmap.frag",
-            "capabilities" : "shadow",
+            "capabilities" : [ "shadow" ],
             "uniforms" : [ {"name" : "Ms", "type" : "umat4"},
                             {"name" : "Ts", "type" : "usampler"}  ]
 

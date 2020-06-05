@@ -204,6 +204,17 @@ public:
 	float getSc() const;
 	void setSc(float sc);
 
+	///////////////////////////////////////////
+	// Itzalak inplementatzeko
+	void setRTex(TextureRT *rtexx);
+
+	TextureRT *getRTex();
+
+	void setMs(Trfm3D *Mss);
+
+	Trfm3D *getMs();	
+
+
 private:
 	RenderState();
 	~RenderState();
@@ -246,5 +257,9 @@ private:
 	Node *m_skybox;
 
 	float m_sc;
+
+	// Itzalak inplementatzeko
+	TextureRT *rtex;
+	Trfm3D *Ms;
 
 };

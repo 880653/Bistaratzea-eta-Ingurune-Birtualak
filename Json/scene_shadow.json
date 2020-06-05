@@ -80,6 +80,15 @@
             "vshader" : "Shaders/bump_shader.vert",
             "fshader" : "Shaders/bump_shader.frag",
 			"uniforms" : [ {"name" : "bumpmap", "type" : "usampler"} ]
+        },
+        {
+            "name" : "shadow",
+            "vshader" : "Shaders/shadowmap.vert",
+            "fshader" : "Shaders/shadowmap.frag",
+            "capabilities" : "shadow",
+            "uniforms" : [ {"name" : "Ms", "type" : "umat4"},
+                            {"name" : "Ts", "type" : "usampler"}  ]
+
         }
     ],
     "lights" : [

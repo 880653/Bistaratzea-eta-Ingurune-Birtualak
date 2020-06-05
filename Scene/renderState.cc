@@ -208,12 +208,12 @@ void RenderState::print() const {
 }
  
 
-	///////////////////////////////////////////
-	// Itzalak inplementatzeko
-	void RenderState::setRTex(TextureRT *rtexx){ rtex = rtexx; }
+///////////////////////////////////////////
+// Itzalak inplementatzeko
+void RenderState::setRTex(TextureRT *rtexx){ rtex = rtexx; }
 
-	TextureRT *RenderState::getRTex(){ return rtex; }
+TextureRT *RenderState::getRTex(){ return rtex; }
 
-	void RenderState::setMs(Trfm3D *Mss){ Ms = Mss; }
+void RenderState::setMs(Trfm3D *Mss){ Ms = Mss; }
 
-	Trfm3D *RenderState::getMs(){ return Ms; }
+Trfm3D *RenderState::getMs(){ return Ms; }

@@ -279,6 +279,15 @@ void ShaderProgram::beforeDraw() {
 		}
 
 	}
+	if(this->has_capability("shadow")){
+		tex = TextureManager::instance()->find("shadow");
+		if(tex != 0){
+			tex->bindGLUnit(Constants::gl_texunits::envmap);
+			this->send_uniform("Ms", rs->getMs());
+			//this->send_uniform("Ts", Constants::gl_texunits::Ts);
+		}
+
+	}
 }
 
 void ShaderProgram::print() const {

@@ -242,18 +242,33 @@ static void Display() {
 	glutSwapBuffers();
 
 	// Lehenengo errenderizazioa
-	//Material *mat = RenderState::instance()->getFrontMaterial();
-	//TextureRT *rtex = mat->getTexture();
+	RenderState *rs = RenderState::instance();
+	//TextureRT *rtex = rs->getRTex();
+	TextureManager *texMan = TextureManager::instance();
+	TextureRT *rtex = texMan->createDepthMap("rtex", 2048, 2048);
+
 	//Camera *lightC = eskuratu_argiaren_kamera();
 	//rtex->bind();
 	//erabili_shader("dummy");
 	//Render(lightC);
 	//rtex->unbind();
 
+	// Shaderra aldatu
+	ShaderProgram *theShader = ShaderManager::instance()->find("dummy");
+	Node *rootNode = NodeManager::instance()->find("root");
+	rootNode->attachShader(theShader);
+
 	// Bigarren errenderizazioa
 	//Ms_ezarri(lightC);
 	//erabili_shader("shadowmap");
 	//Render(mainCamera);
+
+	// Shaderra aldatu
+	theShader = ShaderManager::instance()->find("shadow");
+	rootNode = NodeManager::instance()->find("root");
+	rootNode->attachShader(theShader);
+
+
 }
 
 // Keyboard dispatcher when ALT key is pressed
